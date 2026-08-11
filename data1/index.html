@@ -1,454 +1,801 @@
 <!DOCTYPE html>
-<html lang="ko" class="scroll-smooth">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>데이터 분석 포트폴리오 | 데이터로 세상을 읽다</title>
+    <title>2024-2026 서울대학교 입학 및 기회균형 선발 종합 분석 보고서</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts Inter & Noto Sans KR -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        primary: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0284c7',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        },
-                        secondary: {
-                            50: '#f8fafc',
-                            500: '#64748b',
-                            800: '#1e293b',
-                            900: '#0f172a',
-                        },
-                        accent: {
-                            traffic: '#ef4444',
-                            trafficLight: '#fee2e2',
-                            career: '#10b981',
-                            careerLight: '#d1fae5',
-                        }
-                    },
                     fontFamily: {
-                        sans: ['Pretendard', 'Inter', 'sans-serif'],
+                        sans: ['"Noto Sans KR"', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        snu: {
+                            blue: '#0F0D59',
+                            gold: '#C5A059',
+                            light: '#1E1B80',
+                            accent: '#2563EB',
+                            bg: '#F8FAFC'
+                        }
                     }
                 }
             }
         }
     </script>
-    <!-- Font preconnect & Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Chart.js for data visualization -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <style>
         body {
-            font-family: 'Pretendard', 'Inter', sans-serif;
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: #F8FAFC;
         }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+        .gradient-snu {
+            background: linear-gradient(135deg, #0F0D59 0%, #1E1B80 60%, #1E3A8A 100%);
         }
-        .dark .glass-panel {
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        .tab-btn.active {
+            color: #0F0D59;
+            border-bottom-color: #0F0D59;
+            font-weight: 700;
+            background-color: #EFF6FF;
         }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(156, 163, 175, 0.5);
-            border-radius: 9999px;
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border: 1px solid #E2E8F0;
         }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col">
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
-    <!-- Navbar -->
-    <header class="sticky top-0 z-40 w-full glass-panel border-b border-slate-200/80 dark:border-slate-800/80 transition-all">
-        <div class="max-w-7xl mx-mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <!-- Brand Logo -->
-            <a href="../index.html" class="flex items-center gap-2 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform">
-                    <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
-                </div>
-                <div class="flex flex-col">
-                    <span class="font-bold text-lg text-slate-900 dark:text-white leading-tight">DataPortfolio</span>
-                    <span class="text-xs text-sky-600 dark:text-sky-400 font-medium">공공데이터 분석가</span>
-                </div>
-            </a>
-
-            <!-- Navigation Links -->
-            <nav class="hidden md:flex items-center gap-8 font-medium text-sm text-slate-600 dark:text-slate-300">
-                <a href="../index.html" class="inline-flex items-center gap-1.5 text-sky-600 dark:text-sky-400 font-semibold hover:text-sky-700 transition-colors">
-                    <i data-lucide="home" class="w-4 h-4"></i>
-                    <span>홈</span>
+    <!-- Top Header Banner -->
+    <header class="gradient-snu text-white shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+            <!-- Top Navigation / Home Link -->
+            <div class="mb-4">
+                <a href="../index.html" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium px-3.5 py-1.5 rounded-lg transition-all text-xs backdrop-blur-sm shadow-sm hover:shadow">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                    홈으로 이동
                 </a>
-                <a href="#about" class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">소개</a>
-                <a href="#reports" class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">주요 보고서</a>
-                <a href="#methodology" class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">분석 프로세스</a>
-                <a href="#skills" class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">기술 스택</a>
-                <a href="#timeline" class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">활동 타임라인</a>
-            </nav>
-
-            <!-- Actions -->
-            <div class="flex items-center gap-3">
-                <!-- Home Quick Button -->
-                <a href="../index.html" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-1.5 text-xs font-semibold" title="홈으로 이동">
-                    <i data-lucide="home" class="w-4 h-4"></i>
-                    <span class="hidden sm:inline">홈</span>
-                </a>
-
-                <!-- Theme Toggle Button -->
-                <button id="themeToggle" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="테마 전환">
-                    <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
-                    <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
-                </button>
-
-                <!-- Contact Button -->
-                <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-sm font-semibold shadow-md shadow-sky-600/20 transition-all hover:shadow-lg hover:shadow-sky-600/30">
-                    <i data-lucide="mail" class="w-4 h-4"></i>
-                    <span>문의하기</span>
-                </a>
-
-                <!-- Mobile menu toggle -->
-                <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
             </div>
-        </div>
 
-        <!-- Mobile Navigation Menu -->
-        <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pt-2 pb-4 space-y-2">
-            <a href="../index.html" class="flex items-center gap-2 py-2 text-sky-600 font-bold">
-                <i data-lucide="home" class="w-4 h-4"></i>
-                <span>홈</span>
-            </a>
-            <a href="#about" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-sky-600">소개</a>
-            <a href="#reports" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-sky-600">주요 보고서</a>
-            <a href="#methodology" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-sky-600">분석 프로세스</a>
-            <a href="#skills" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-sky-600">기술 스택</a>
-            <a href="#timeline" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-sky-600">활동 타임라인</a>
-            <a href="#contact" class="block py-2 text-sky-600 font-semibold">문의하기</a>
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+                    <div class="relative shrink-0">
+                        <img src="image_d5aada.jpg" alt="보고서 프로필 이미지" class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover border-2 border-white/30 shadow-xl" onerror="this.onerror=null; this.src='https://placehold.co/200x200/0F0D59/ffffff?text=Profile';">
+                    </div>
+                    <div>
+                        <div class="inline-flex items-center gap-2 bg-blue-500/20 backdrop-blur-md border border-blue-400/30 text-blue-200 text-xs font-semibold px-3 py-1 rounded-full mb-3">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            입학 정책 & 사회적 책무 평가 보고서
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
+                            2024-2026 서울대학교 입학 및 기회균형 선발<br class="hidden sm:inline"/> 종합 분석 웹보고서
+                        </h1>
+                        <p class="mt-2 text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
+                            최근 3개년 입학 통계와 정원 내/외 기회균형 선발 데이터, 2026학년도 등록 현황 및 대학 교육 여건 지표를 입체적으로 시각화한 심층 분석 대시보드입니다.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex flex-row md:flex-col items-start md:items-end justify-between border-t md:border-t-0 border-white/10 pt-4 md:pt-0 gap-2 text-xs text-slate-300">
+                    <div>발행기관: 입학분석 정책연구그룹</div>
+                    <div>기준연도: 2024년 ~ 2026년</div>
+                    <div class="flex flex-wrap items-center gap-2 mt-2">
+                        <button onclick="openPresidentModal()" class="inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium px-3 py-1.5 rounded-lg transition-all text-xs">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            서울대 총장 사진 보기
+                        </button>
+                        <button onclick="window.print()" class="inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium px-3 py-1.5 rounded-lg transition-all text-xs">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                            보고서 인쇄 / PDF 저장
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="about" class="relative pt-12 pb-20 md:pt-20 md:pb-28 overflow-hidden">
-        <!-- Background Decorative Blobs -->
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-sky-400/15 dark:bg-sky-600/10 rounded-full blur-3xl -z-10 pointer-events-none"></div>
-        <div class="absolute top-1/3 right-10 w-[300px] h-[300px] bg-emerald-400/10 dark:bg-emerald-600/10 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+    <!-- KPI Highlights Bar -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 z-10 w-full">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Metric 1 -->
+            <div class="glass-card rounded-xl p-4 sm:p-5 shadow-md border-l-4 border-l-snu-blue hover:shadow-lg transition-all">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 block">2026 총 입학자 수</span>
+                <div class="flex items-baseline justify-between mt-2">
+                    <span class="text-2xl sm:text-3xl font-black text-slate-900">3,811명</span>
+                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">+36명 (↑)</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">2024년(3,746명) 대비 지속 증가</p>
+            </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <!-- Hero Left Content -->
-                <div class="lg:col-span-7 space-y-6">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 text-xs font-semibold">
-                        <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
-                        공공데이터 분석 & 인사이트 시각화 포트폴리오
+            <!-- Metric 2 -->
+            <div class="glass-card rounded-xl p-4 sm:p-5 shadow-md border-l-4 border-l-blue-600 hover:shadow-lg transition-all">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 block">기회균형 선발 비율</span>
+                <div class="flex items-baseline justify-between mt-2">
+                    <span class="text-2xl sm:text-3xl font-black text-snu-light">9.3%</span>
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">353명 선발</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">사회적 계층 사다리 역할 견고</p>
+            </div>
+
+            <!-- Metric 3 -->
+            <div class="glass-card rounded-xl p-4 sm:p-5 shadow-md border-l-4 border-l-amber-500 hover:shadow-lg transition-all">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 block">1인당 교육비</span>
+                <div class="flex items-baseline justify-between mt-2">
+                    <span class="text-xl sm:text-2xl font-black text-slate-900">6,302만원</span>
+                    <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">국내 최고</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">1인당 장학금: 약 350만 원</p>
+            </div>
+
+            <!-- Metric 4 -->
+            <div class="glass-card rounded-xl p-4 sm:p-5 shadow-md border-l-4 border-l-indigo-600 hover:shadow-lg transition-all">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 block">전임교원 확보율</span>
+                <div class="flex items-baseline justify-between mt-2">
+                    <span class="text-2xl sm:text-3xl font-black text-indigo-900">123.1%</span>
+                    <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">+23.1%p 초과</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">재학생 기준 법정 기준 대폭 상회</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+            <div class="flex flex-wrap border-b border-slate-200 bg-slate-50/50 p-1 gap-1">
+                <button onclick="switchTab('tab1')" id="btn-tab1" class="tab-btn active flex-1 min-w-[140px] py-3 px-4 text-xs sm:text-sm font-medium rounded-xl text-slate-600 hover:text-slate-900 transition-all text-center flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    1. 입학 및 기회균형 선발
+                </button>
+                <button onclick="switchTab('tab2')" id="btn-tab2" class="tab-btn flex-1 min-w-[140px] py-3 px-4 text-xs sm:text-sm font-medium rounded-xl text-slate-600 hover:text-slate-900 transition-all text-center flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 30a1 1 0 000 2h2a1 1 0 000-2h-2zM9 5a2 2 0 012-2h2a2 2 0 012 2v12a2 2 0 01-2 2h-2a2 2 0 01-2-2V5z"/></svg>
+                    2. 2026 전형별 등록 현황
+                </button>
+                <button onclick="switchTab('tab3')" id="btn-tab3" class="tab-btn flex-1 min-w-[140px] py-3 px-4 text-xs sm:text-sm font-medium rounded-xl text-slate-600 hover:text-slate-900 transition-all text-center flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    3. 대학 경쟁력 & 교육 여건
+                </button>
+                <button onclick="switchTab('tab4')" id="btn-tab4" class="tab-btn flex-1 min-w-[140px] py-3 px-4 text-xs sm:text-sm font-medium rounded-xl text-slate-600 hover:text-slate-900 transition-all text-center flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 01-2 2h-disabled2a2 2 0 01-2-2v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    4. 종합 시사점 & 정책 제언
+                </button>
+            </div>
+
+            <div class="p-6">
+                <!-- TAB 1: 총괄 및 기회균형 선발 -->
+                <div id="tab1" class="tab-content block space-y-8">
+                    <div class="border-b border-slate-200 pb-4">
+                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <span class="bg-snu-blue text-white w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold">1</span>
+                            연도별 입학 총괄 및 기회균형 선발 추이 (2024 - 2026)
+                        </h2>
+                        <p class="text-sm text-slate-600 mt-1">
+                            서울대학교의 입학 정원은 학내 교육 환경 수용력에 맞추어 안정적인 소폭 증가세를 이어가고 있으며, 국립대학으로서 사회적 다양성을 확보하기 위한 기회균형선발 제도를 견고하게 유지하고 있습니다.
+                        </p>
                     </div>
 
-                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.25]">
-                        데이터로 <span class="bg-gradient-to-r from-sky-600 via-indigo-500 to-emerald-500 bg-clip-text text-transparent">세상의 문제</span>를 분석하고,<br>
-                        더 나은 의사결정을 제안합니다.
-                    </h1>
+                    <!-- Charts Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Chart 1: 입학자 수 추이 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-snu-blue"></span>
+                                    총 입학자 수(A) 연도별 변화
+                                </h3>
+                                <span class="text-xs bg-slate-200 px-2 py-1 rounded text-slate-600">명 기준</span>
+                            </div>
+                            <div class="h-64 relative">
+                                <canvas id="chartAdmissions"></canvas>
+                            </div>
+                        </div>
 
-                    <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
-                        안녕하세요! 공공 빅데이터를 수집·가공·시각화하여 사회적 가치를 창출하는 데이터 분석가입니다. 
-                        <strong>대학알리미</strong>의 대학/학과 진로 지표와 <strong>도로교통공단</strong>의 사고 빅데이터를 분석하여 대화형 웹 보고서로 구축했습니다.
-                    </p>
-
-                    <!-- Quick Call to Action -->
-                    <div class="flex flex-wrap gap-4 pt-2">
-                        <a href="#reports" class="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-sky-600 dark:hover:bg-sky-500 text-white font-medium shadow-lg shadow-slate-900/10 dark:shadow-sky-600/20 flex items-center gap-2 transition-all hover:-translate-y-0.5">
-                            <i data-lucide="file-text" class="w-5 h-5"></i>
-                            <span>주요 보고서 확인하기</span>
-                        </a>
-                        <button onclick="downloadResume()" class="px-6 py-3.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-200 font-medium flex items-center gap-2 transition-all">
-                            <i data-lucide="download" class="w-5 h-5"></i>
-                            <span>포트폴리오 PDF</span>
-                        </button>
+                        <!-- Chart 2: 기회균형 비율 및 인원 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                                    기회균형 선발 인원(B) 및 비율(B/A)
+                                </h3>
+                                <span class="text-xs bg-slate-200 px-2 py-1 rounded text-slate-600">% / 명</span>
+                            </div>
+                            <div class="h-64 relative">
+                                <canvas id="chartEqualOp"></canvas>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Highlights Stat Badges -->
-                    <div class="grid grid-cols-3 gap-4 pt-6 border-t border-slate-200 dark:border-slate-800/80">
-                        <div>
-                            <p class="text-2xl sm:text-3xl font-extrabold text-sky-600 dark:text-sky-400">100,000+</p>
-                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">분석 데이터 레코드</p>
+                    <!-- 기회균형 세부 항목 분석 표 -->
+                    <div class="space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <h3 class="font-bold text-slate-900 text-base">연도별 · 세부 항목별 기회균형 선발 현황 (정원 내 / 정원 외)</h3>
+                            <span class="text-xs text-slate-500">* 표시: 기초생활수급자, 차상위계층, 한부모가족 지원대상자 포함</span>
                         </div>
-                        <div>
-                            <p class="text-2xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">2대 핵심</p>
-                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">진로 & 교통 빅데이터</p>
+
+                        <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                            <table class="w-full text-sm text-left text-slate-700">
+                                <thead class="text-xs text-white uppercase bg-snu-blue">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3">세부 항목</th>
+                                        <th scope="col" class="px-4 py-3 text-center">2024년 (내 / 외 / 계)</th>
+                                        <th scope="col" class="px-4 py-3 text-center">2025년 (내 / 외 / 계)</th>
+                                        <th scope="col" class="px-4 py-3 text-center bg-blue-900">2026년 (내 / 외 / 계)</th>
+                                        <th scope="col" class="px-4 py-3 text-center">3개년 변화 특징</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 bg-white">
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 font-semibold text-slate-900">농어촌 학생</td>
+                                        <td class="px-4 py-3 text-center">123 / 83 / 206명</td>
+                                        <td class="px-4 py-3 text-center">120 / 86 / 206명</td>
+                                        <td class="px-4 py-3 text-center font-bold text-blue-700 bg-blue-50/50">130 / 84 / 214명</td>
+                                        <td class="px-4 py-3 text-xs text-slate-600">2026년 정원 내 130명으로 확대</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 font-semibold text-slate-900">저소득층 합계 *</td>
+                                        <td class="px-4 py-3 text-center">40 / 84 / 124명</td>
+                                        <td class="px-4 py-3 text-center">40 / 85 / 125명</td>
+                                        <td class="px-4 py-3 text-center font-bold text-blue-700 bg-blue-50/50">35 / 90 / 125명</td>
+                                        <td class="px-4 py-3 text-xs text-slate-600">정원 외 비중 증대로 125명 안정 유지</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 font-semibold text-slate-900">장애인 등 대상자</td>
+                                        <td class="px-4 py-3 text-center">0 / 4 / 4명</td>
+                                        <td class="px-4 py-3 text-center">0 / 8 / 8명</td>
+                                        <td class="px-4 py-3 text-center font-bold text-blue-700 bg-blue-50/50">0 / 5 / 5명</td>
+                                        <td class="px-4 py-3 text-xs text-slate-600">전원 정원 외 선발 및 높은 등록률</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 font-semibold text-slate-900">특성화고교 졸업자</td>
+                                        <td class="px-4 py-3 text-center">0 / 4 / 4명</td>
+                                        <td class="px-4 py-3 text-center">0 / 4 / 4명</td>
+                                        <td class="px-4 py-3 text-center font-bold text-blue-700 bg-blue-50/50">0 / 4 / 4명</td>
+                                        <td class="px-4 py-3 text-xs text-slate-600">매년 4명 정원 외 정속 유지</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 font-semibold text-slate-900">국가보훈대상자</td>
+                                        <td class="px-4 py-3 text-center">10 / 0 / 10명</td>
+                                        <td class="px-4 py-3 text-center">6 / 0 / 6명</td>
+                                        <td class="px-4 py-3 text-center font-bold text-blue-700 bg-blue-50/50">5 / 0 / 5명</td>
+                                        <td class="px-4 py-3 text-xs text-slate-600">전원 정원 내 선발</td>
+                                    </tr>
+                                    <tr class="bg-slate-100 font-bold text-slate-900">
+                                        <td class="px-4 py-3">총 기회균형 선발(B)</td>
+                                        <td class="px-4 py-3 text-center">348명</td>
+                                        <td class="px-4 py-3 text-center">349명</td>
+                                        <td class="px-4 py-3 text-center text-blue-800 text-base">353명</td>
+                                        <td class="px-4 py-3 text-xs text-slate-700">전년 대비 +4명 선발 확대</td>
+                                    </tr>
+                                    <tr class="bg-blue-50/80 font-extrabold text-blue-900">
+                                        <td class="px-4 py-3">기회균형 선발비율 (B/A)</td>
+                                        <td class="px-4 py-3 text-center">9.3%</td>
+                                        <td class="px-4 py-3 text-center">9.2%</td>
+                                        <td class="px-4 py-3 text-center text-lg">9.3%</td>
+                                        <td class="px-4 py-3 text-xs text-blue-800">9.3% 수준 지속적 동결 유지</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div>
-                            <p class="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">98.5%</p>
-                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">시각화 인덱스 검증</p>
+                    </div>
+
+                    <!-- 전문가 분석 Callout -->
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-5">
+                        <div class="flex items-start gap-3">
+                            <div class="p-2 bg-snu-blue text-white rounded-lg mt-0.5">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            </div>
+                            <div class="space-y-2">
+                                <h4 class="font-bold text-slate-900 text-base">기회균형 선발에 대한 전문가적 평가</h4>
+                                <ul class="list-disc list-inside text-sm text-slate-700 space-y-1">
+                                    <li><strong class="text-snu-blue">농어촌 전형의 입지 공고화:</strong> 기회균형 선발 내 가장 큰 비중(60% 이상)을 차지하는 농어촌 전형은 2026년 정원 내 선발을 130명까지 확장하며 농어촌 교육 여건 지원을 한층 강화했습니다.</li>
+                                    <li><strong class="text-snu-blue">정원 외 전형의 유연한 활용:</strong> 장애인 및 특성화고 졸업자 전형은 전원 정원 외로 차출 선발하여, 일반전형 모집규모에 영향을 주지 않으면서도 계층 간 형평성을 우수하게 충족하고 있습니다.</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Hero Right Card Mockup -->
-                <div class="lg:col-span-5 relative">
-                    <div class="relative mx-auto max-w-md lg:max-w-none rounded-2xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl space-y-6">
-                        <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+                <!-- TAB 2: 전형별 등록 현황 -->
+                <div id="tab2" class="tab-content hidden space-y-8">
+                    <div class="border-b border-slate-200 pb-4">
+                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <span class="bg-snu-blue text-white w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold">2</span>
+                            2026학년도 입학전형 유형별 모집 & 등록 현황 분석
+                        </h2>
+                        <p class="text-sm text-slate-600 mt-1">
+                            수시, 정시, 자율선발(글로벌인재) 전 전형에서 압도적인 높은 등록률을 기록했습니다. 전형 세부 유형에 따라 최저학력기준 유무와 중복합격 이탈 차이가 나타납니다.
+                        </p>
+                    </div>
+
+                    <!-- 3 Core Admission Groups Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- 수시 모집 -->
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md">수시 모집</span>
+                                    <h3 class="text-lg font-bold text-slate-900 mt-2">수시 종합</h3>
+                                </div>
+                                <span class="text-2xl font-black text-blue-600">97.5%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-3">
+                                <div class="bg-blue-600 h-full rounded-full" style="width: 97.5%"></div>
+                            </div>
+                            <div class="text-xs text-slate-600 space-y-1 border-t border-slate-100 pt-3">
+                                <div class="flex justify-between"><span>모집 인원:</span> <span class="font-semibold text-slate-800">2,207명</span></div>
+                                <div class="flex justify-between"><span>등록 인원:</span> <span class="font-semibold text-slate-800">2,151명</span></div>
+                                <div class="flex justify-between text-rose-600"><span>미등록(결원):</span> <span class="font-semibold">56명</span></div>
+                            </div>
+                        </div>
+
+                        <!-- 정시 모집 -->
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">정시 모집</span>
+                                    <h3 class="text-lg font-bold text-slate-900 mt-2">정시 종합</h3>
+                                </div>
+                                <span class="text-2xl font-black text-emerald-600">99.1%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-3">
+                                <div class="bg-emerald-500 h-full rounded-full" style="width: 99.1%"></div>
+                            </div>
+                            <div class="text-xs text-slate-600 space-y-1 border-t border-slate-100 pt-3">
+                                <div class="flex justify-between"><span>모집 인원:</span> <span class="font-semibold text-slate-800">1,593명</span></div>
+                                <div class="flex justify-between"><span>등록 인원:</span> <span class="font-semibold text-slate-800">1,579명</span></div>
+                                <div class="flex justify-between text-slate-500"><span>미등록(결원):</span> <span class="font-semibold">14명</span></div>
+                            </div>
+                        </div>
+
+                        <!-- 자율 선발 -->
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md">자율 선발</span>
+                                    <h3 class="text-lg font-bold text-slate-900 mt-2">글로벌인재특별전형</h3>
+                                </div>
+                                <span class="text-2xl font-black text-purple-600">100%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-3">
+                                <div class="bg-purple-600 h-full rounded-full" style="width: 100%"></div>
+                            </div>
+                            <div class="text-xs text-slate-600 space-y-1 border-t border-slate-100 pt-3">
+                                <div class="flex justify-between"><span>모집 인원:</span> <span class="font-semibold text-slate-800">81명</span></div>
+                                <div class="flex justify-between"><span>등록 인원:</span> <span class="font-semibold text-slate-800">81명</span></div>
+                                <div class="flex justify-between text-emerald-600"><span>등록 완성도:</span> <span class="font-semibold">결원 0명 (완전 등록)</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comparison Chart & Breakdown -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                            <h3 class="font-bold text-slate-800 text-sm mb-4">2026 주요 전형별 등록률 비교Chart (%)</h3>
+                            <div class="h-64 relative">
+                                <canvas id="chartRegistration"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Detail Breakdown list -->
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 space-y-4">
+                            <h3 class="font-bold text-slate-900 text-sm border-b border-slate-100 pb-2">전형별 등록 특이사항 심층 분석</h3>
+                            
+                            <div class="space-y-3 text-xs text-slate-700">
+                                <div class="p-3 bg-amber-50/70 border border-amber-200 rounded-lg">
+                                    <div class="font-bold text-amber-900 mb-1 flex items-center justify-between">
+                                        <span>수시 vs 정시 지역균형전형 격차</span>
+                                        <span class="text-amber-700 text-xs">수시 93.3% vs 정시 99.3%</span>
+                                    </div>
+                                    <p class="leading-relaxed text-amber-800">
+                                        정시 지역균형(99.3%)에 비해 <strong>수시 지역균형전형(93.3%)</strong>의 등록률이 유의미하게 낮습니다. 이는 수능 최저학력기준 미충족에 따른 이탈 또는 타 의약학계열·상위권 대학 중복합격으로 인한 유출이 주요 원인으로 작용합니다.
+                                    </p>
+                                </div>
+
+                                <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                                    <div class="font-bold text-slate-900 mb-1">일반전형의 압도적 공고함</div>
+                                    <p class="leading-relaxed text-slate-600">
+                                        수시 일반전형(99.1%)과 정시 일반전형(99.4%)은 합격자의 충원 이탈이 거의 발생하지 않는 안정된 선호도를 나타냅니다.
+                                    </p>
+                                </div>
+
+                                <div class="p-3 bg-purple-50 border border-purple-200 rounded-lg">
+                                    <div class="font-bold text-purple-900 mb-1">글로벌인재 & 정원 외 특별전형</div>
+                                    <p class="leading-relaxed text-purple-800">
+                                        전교육과정해외이수자(55명) 및 부모모두외국인(26명) 총 81명 전원 등록 완료(100%). 정원 외 장애인 등 대상자 전형 역시 5명 모집에 5명 전원이 등록하여 100% 충원을 이뤘습니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: 대학 경쟁력 및 교육 여건 -->
+                <div id="tab3" class="tab-content hidden space-y-8">
+                    <div class="border-b border-slate-200 pb-4">
+                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <span class="bg-snu-blue text-white w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold">3</span>
+                            대학 경쟁력 및 핵심 교육 여건 지표
+                        </h2>
+                        <p class="text-sm text-slate-600 mt-1">
+                            국내 최상위 수준의 학생 1인당 교육비 투입과 우수한 전임교원 확보율을 통해 세계 수준의 연구·교육 인프라를 유지하고 있습니다.
+                        </p>
+                    </div>
+
+                    <!-- Visual Dashboard Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Card 1: 충원율 & 취업률 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
                             <div class="flex items-center gap-3">
-                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                <div class="w-10 h-10 rounded-xl bg-blue-100 text-snu-blue flex items-center justify-center font-bold">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-900 text-base">학생 충원 및 취업 실적</h3>
+                                    <span class="text-xs text-slate-500">학생 자원 유입 성과</span>
+                                </div>
                             </div>
-                            <span class="text-xs font-mono text-slate-400">public_data_analytics.py</span>
+
+                            <div class="space-y-3 pt-2">
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span class="text-slate-600">신입생 충원율 (정원 내)</span>
+                                        <span class="text-snu-blue font-bold">99.7%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 h-2 rounded-full"><div class="bg-snu-blue h-2 rounded-full" style="width: 99.7%"></div></div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span class="text-slate-600">재학생 충원율</span>
+                                        <span class="text-emerald-600 font-bold">112.8%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 h-2 rounded-full"><div class="bg-emerald-500 h-2 rounded-full" style="width: 100%"></div></div>
+                                    <span class="text-[10px] text-slate-400 mt-0.5 block">정원 이상의 효율적 관리</span>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span class="text-slate-600">졸업자 기준 취업률</span>
+                                        <span class="text-indigo-600 font-bold">65.6%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 h-2 rounded-full"><div class="bg-indigo-500 h-2 rounded-full" style="width: 65.6%"></div></div>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Data Summary Card Preview inside Hero -->
-                        <div class="space-y-4">
-                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800 flex items-start gap-4">
-                                <div class="p-2.5 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400">
-                                    <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                        <!-- Card 2: 교육비 투자 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                 </div>
                                 <div>
-                                    <h4 class="text-sm font-semibold text-slate-900 dark:text-white">대학알리미 진로 지표 분석</h4>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">전국 200+ 대학 학과별 취업률 및 진학률 상관관계 정밀 분석 완료</p>
+                                    <h3 class="font-bold text-slate-900 text-base">전문화된 재정 투자</h3>
+                                    <span class="text-xs text-slate-500">1인당 투입 교육 자산</span>
                                 </div>
                             </div>
 
-                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800 flex items-start gap-4">
-                                <div class="p-2.5 rounded-lg bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400">
-                                    <i data-lucide="car" class="w-6 h-6"></i>
+                            <div class="bg-amber-50/50 p-4 rounded-xl border border-amber-100 space-y-3">
+                                <div>
+                                    <span class="text-xs text-slate-500 block">학생 1인당 교육비</span>
+                                    <span class="text-2xl font-black text-slate-900">63,021,143원</span>
+                                    <p class="text-[11px] text-amber-700 mt-1">압도적 국내 대학 1위 재정 투입</p>
+                                </div>
+                                <div class="border-t border-amber-200/60 pt-2">
+                                    <span class="text-xs text-slate-500 block">학생 1인당 장학금</span>
+                                    <span class="text-lg font-bold text-amber-900">3,499,102원</span>
+                                    <p class="text-[11px] text-slate-500">경제적 부담 경감 제도 실효성 증명</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: 교원 확보율 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 md:col-span-2 lg:col-span-1">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center font-bold">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
                                 </div>
                                 <div>
-                                    <h4 class="text-sm font-semibold text-slate-900 dark:text-white">도로교통공단 사고 위험도 예측</h4>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">TAAS 사고 데이터 시간대·날씨별 패턴 클러스터링 모형 개발</p>
+                                    <h3 class="font-bold text-slate-900 text-base">우수 교원 확보 수준</h3>
+                                    <span class="text-xs text-slate-500">재학생 기준 법정 지표</span>
                                 </div>
                             </div>
 
-                            <!-- Mini Chart Widget -->
-                            <div class="p-4 rounded-xl bg-sky-50/50 dark:bg-sky-950/30 border border-sky-100 dark:border-sky-900/50">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="text-xs font-semibold text-sky-900 dark:text-sky-300">데이터 처리 효율성</span>
-                                    <span class="text-xs font-mono text-sky-600 dark:text-sky-400">Automated Pipeline</span>
+                            <div class="bg-purple-50/50 p-4 rounded-xl border border-purple-100 text-center space-y-2">
+                                <span class="text-xs font-semibold text-purple-800">전임교원 확보율</span>
+                                <div class="text-3xl font-black text-purple-950">123.13%</div>
+                                <div class="inline-block bg-purple-200 text-purple-900 text-xs font-bold px-3 py-1 rounded-full">
+                                    법정 기준 대비 +23.13%p 초과
                                 </div>
-                                <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
-                                    <div class="bg-gradient-to-r from-sky-500 to-emerald-500 h-full w-[92%] rounded-full"></div>
-                                </div>
+                                <p class="text-xs text-slate-600 mt-2 text-left leading-relaxed">
+                                    교수 1인당 학생 수를 적정 수준 이하로 엄격히 관리하여 밀도 높은 토론 수업 및 연구 지도 질 확보.
+                                </p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: 종합 결론 및 시사점 -->
+                <div id="tab4" class="tab-content hidden space-y-8">
+                    <div class="border-b border-slate-200 pb-4">
+                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <span class="bg-snu-blue text-white w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold">4</span>
+                            종합 평가 및 향후 입학 정책 시사점
+                        </h2>
+                        <p class="text-sm text-slate-600 mt-1">
+                            서울대학교 2024-2026 입학 통계 및 기회균형 데이터 분석을 바탕으로 도출된 4가지 핵심 전략 시사점입니다.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Insight 1 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-snu-blue transition-all space-y-3">
+                            <div class="flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-full bg-blue-100 text-snu-blue font-bold flex items-center justify-center text-sm">01</span>
+                                <h3 class="font-bold text-slate-900 text-base">사회적 책무 이행의 지속성과 강화</h3>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed pl-11">
+                                기회균형 선발 비율을 <strong>9.3% 수준으로 고르게 유지</strong>하고 있습니다. 특히 농어촌 학생 전형의 정원 내 인원을 130명까지 확장하고 저소득·장애인 대상 정원 외 전형을 안정적으로 운영함으로써 국립대로서의 공공성과 계층 사다리 구축 역할을 성실히 이행하고 있습니다.
+                            </p>
+                        </div>
+
+                        <!-- Insight 2 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-snu-blue transition-all space-y-3">
+                            <div class="flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-full bg-purple-100 text-purple-700 font-bold flex items-center justify-center text-sm">02</span>
+                                <h3 class="font-bold text-slate-900 text-base">글로벌 경쟁력 및 브랜드 가치 입증</h3>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed pl-11">
+                                자율 선발 전형인 글로벌인재특별전형에서 <strong>100% 등록률(81명 전원 등록)</strong>을 달성했으며, 수시·정시 일반전형에서도 99% 이상의 높은 등록률을 유지하여 국내외 최고 학문 기관으로서의 가치를 확고히 입증했습니다.
+                            </p>
+                        </div>
+
+                        <!-- Insight 3 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-snu-blue transition-all space-y-3">
+                            <div class="flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-full bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-sm">03</span>
+                                <h3 class="font-bold text-slate-900 text-base">최상위 교육 인프라 재정 투자</h3>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed pl-11">
+                                학생 1인당 교육비 6,300만 원 상회, 전임교원 확보율 123.1% 등 압도적인 교육 재정 투입은 우수인재의 유출을 막고 세계적 수준의 연구 환경을 조성하는 근간이 되고 있습니다.
+                            </p>
+                        </div>
+
+                        <!-- Insight 4 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-rose-500 hover:border-snu-blue transition-all space-y-3">
+                            <div class="flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-full bg-rose-100 text-rose-700 font-bold flex items-center justify-center text-sm">04</span>
+                                <h3 class="font-bold text-slate-900 text-base">수시 지역균형전형 제도 보완 필요성</h3>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed pl-11">
+                                정시 지역균형(99.3%)에 비해 <strong>수시 지역균형전형의 등록률(93.3%)</strong>이 상대적으로 낮게 나타나고 있습니다. 수능 최저학력기준의 적정성을 재검토하거나 선발 단계 구조 개편을 통해 이탈에 따른 결원을 방지하는 세부 보완 정책이 요구됩니다.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
-    <!-- Featured Reports Section (주요 보고서 카드) -->
-    <section id="reports" class="py-20 bg-slate-100/70 dark:bg-slate-900/50 border-y border-slate-200/80 dark:border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100 dark:bg-sky-950 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 text-xs font-bold uppercase tracking-wider">
-                    Core Projects
-                </div>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
-                    주요 공공데이터 분석 보고서
-                </h2>
-                <p class="text-slate-600 dark:text-slate-400 text-base sm:text-lg">
-                    공공데이터 웹 API와 정형 데이터를 가공하여 인사이트를 도출한 핵심 연구 보고서입니다.<br class="hidden sm:inline"> 각 카드를 클릭하면 상세 인터랙티브 시각화 리포트를 열람할 수 있습니다.
-                </p>
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div>
+                <p class="font-semibold text-slate-300">2024-2026 서울대학교 입학 및 기회균형 선발 종합 분석 보고서</p>
+                <p class="mt-1 text-slate-500">본 웹보고서는 공식 입학 데이터 통계를 기반으로 제작된 대시보드 리포트입니다.</p>
             </div>
-
-            <!-- Report Cards Grid (3-column layout on large screens) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <!-- Card 1: 서울대학교 입학 및 기회균형 선발 종합 분석 -->
-                <div class="group relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1">
-                    <!-- Top Accent Banner -->
-                    <div class="h-2 bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500"></div>
-                    
-                    <div class="p-6 sm:p-8 flex-1 flex flex-col justify-between">
-                        <div>
-                            <!-- Header Tags -->
-                            <div class="flex items-center justify-between gap-2 mb-4">
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 text-xs font-semibold border border-emerald-200 dark:border-emerald-800">
-                                    <i data-lucide="database" class="w-3.5 h-3.5"></i>
-                                    대학알리미 & 입시 데이터
-                                </span>
-                                <span class="text-xs text-slate-400 font-mono">Admission Analytics</span>
-                            </div>
-
-                            <!-- Title & Subtitle -->
-                            <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                                2024-2026 서울대학교 입학 및 기회균형 선발 종합 분석
-                            </h3>
-                            <p class="text-slate-600 dark:text-slate-300 text-sm mt-3 leading-relaxed">
-                                대학알리미 및 서울대학교 공시 데이터를 바탕으로 2024~2026학년도 서울대학교 입학 전형별 모집 결과 및 기회균형 선발 전형의 입학 현황을 종합 분석한 웹보고서입니다.
-                            </p>
-
-                            <!-- Key Findings Summary -->
-                            <div class="my-6 p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800 space-y-2">
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 mr-2 flex-shrink-0"></i>
-                                    <span>기회균형선발 전형 합격자 비율 및 계열별 분포 추이 분석</span>
-                                </div>
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 mr-2 flex-shrink-0"></i>
-                                    <span>수시·정시 전형별 입시 결과 및 지역별 분포 분석</span>
-                                </div>
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 mr-2 flex-shrink-0"></i>
-                                    <span>대학알리미 및 공시 데이터 탐색적 분석(EDA) 완료</span>
-                                </div>
-                            </div>
-
-                            <!-- Tech Chips -->
-                            <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">Python</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">Pandas</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">Chart.js</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">입시 데이터</span>
-                            </div>
-                        </div>
-
-                        <!-- Card Footer Action -->
-                        <a href="./data1/index.html" class="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 transition-all">
-                            <i data-lucide="book-open" class="w-4 h-4"></i>
-                            <span>진로 보고서 상세 보기 (웹페이지)</span>
-                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Card 2: 요일 및 월별 자전거 사고 분석 -->
-                <div class="group relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1">
-                    <!-- Top Accent Banner -->
-                    <div class="h-2 bg-gradient-to-r from-red-500 via-orange-500 to-amber-500"></div>
-
-                    <div class="p-6 sm:p-8 flex-1 flex flex-col justify-between">
-                        <div>
-                            <!-- Header Tags -->
-                            <div class="flex items-center justify-between gap-2 mb-4">
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-red-50 dark:bg-red-950/80 text-red-700 dark:text-red-300 text-xs font-semibold border border-red-200 dark:border-red-800">
-                                    <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
-                                    도로교통공단 TAAS 데이터
-                                </span>
-                                <span class="text-xs text-slate-400 font-mono">Bicycle Safety</span>
-                            </div>
-
-                            <!-- Title & Subtitle -->
-                            <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
-                                요일 및 월별 자전거 사고 분석
-                            </h3>
-                            <p class="text-slate-600 dark:text-slate-300 text-sm mt-3 leading-relaxed">
-                                도로교통공단(KoROAD)의 자전거 사고 빅데이터를 바탕으로 요일별, 월별(계절별) 발생 패턴 및 원인을 분석하고 안전 대책을 도출한 보고서입니다.
-                            </p>
-
-                            <!-- Key Findings Summary -->
-                            <div class="my-6 p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800 space-y-2">
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-red-500 mr-2 flex-shrink-0"></i>
-                                    <span>야외 활동이 증가하는 5~10월 및 주말 사고 집중 규명</span>
-                                </div>
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-red-500 mr-2 flex-shrink-0"></i>
-                                    <span>자전거 도로 유무 및 유형별 사고 위험도 상관관계 도출</span>
-                                </div>
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-red-500 mr-2 flex-shrink-0"></i>
-                                    <span>자전거 인프라 정비 및 안전 주행 가이드라인 정책 제안</span>
-                                </div>
-                            </div>
-
-                            <!-- Tech Chips -->
-                            <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">Python</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">Pandas</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">시계열 분석</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">TAAS API</span>
-                            </div>
-                        </div>
-
-                        <!-- Card Footer Action -->
-                        <a href="./data2/index.html" class="w-full py-3 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-md shadow-red-600/20 transition-all">
-                            <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
-                            <span>교통데이터 보고서 상세 보기(웹페이지)</span>
-                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Card 3: 어린이 교통사고 시간 분석 -->
-                <div class="group relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1">
-                    <!-- Top Accent Banner -->
-                    <div class="h-2 bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500"></div>
-
-                    <div class="p-6 sm:p-8 flex-1 flex flex-col justify-between">
-                        <div>
-                            <!-- Header Tags -->
-                            <div class="flex items-center justify-between gap-2 mb-4">
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-amber-50 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 text-xs font-semibold border border-amber-200 dark:border-amber-800">
-                                    <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
-                                    도로교통공단 어린이 안전 데이터
-                                </span>
-                                <span class="text-xs text-slate-400 font-mono">Child Safety</span>
-                            </div>
-
-                            <!-- Title & Subtitle -->
-                            <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
-                                어린이 교통사고 시간 분석
-                            </h3>
-                            <p class="text-slate-600 dark:text-slate-300 text-sm mt-3 leading-relaxed">
-                                도로교통공단 데이터를 활용하여 어린이 교통사고의 시간대별(등하교, 방과 후 시간) 발생 특성을 분석하고 사고 예방 방안을 제시한 보고서입니다.
-                            </p>
-
-                            <!-- Key Findings Summary -->
-                            <div class="my-6 p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800 space-y-2">
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 mr-2 flex-shrink-0"></i>
-                                    <span>하교 및 학원 이동 시간대(14시~18시) 사고 집중 현상 도출</span>
-                                </div>
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 mr-2 flex-shrink-0"></i>
-                                    <span>어린이 보호구역(스쿨존) 내 시간대별 위험지수 모델링</span>
-                                </div>
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 mr-2 flex-shrink-0"></i>
-                                    <span>맞춤형 교통안전 지도 및 가변형 속도제한 시스템 제안</span>
-                                </div>
-                            </div>
-
-                            <!-- Tech Chips -->
-                            <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">Python</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">TAAS API</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">시간대별 패턴 분석</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">데이터 시각화</span>
-                            </div>
-                        </div>
-
-                        <!-- Card Footer Action -->
-                        <a href="./data3/index.html" class="w-full py-3 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-md shadow-amber-600/20 transition-all">
-                            <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
-                            <span>교통데이터 보고서 상세 보기(웹페이지)</span>
-                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                        </a>
-                    </div>
-                </div>
-
+            <div class="text-slate-500">
+                &copy; 2026 SNU Admission Analytics. All rights reserved.
             </div>
         </div>
-    </section>
-<!-- ... existing code -->
+    </footer>
+
+    <!-- President Photo Modal -->
+    <div id="presidentModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full overflow-hidden shadow-2xl border border-slate-200">
+            <div class="gradient-snu p-4 text-white flex justify-between items-center">
+                <h3 class="font-bold text-sm flex items-center gap-2">
+                    <svg class="w-4 h-4 text-snu-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    서울대학교 총장 사진
+                </h3>
+                <button onclick="closePresidentModal()" class="text-slate-300 hover:text-white transition-colors p-1 rounded-lg hover:bg-white/10">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="p-5 flex flex-col items-center bg-slate-50">
+                <a href="https://www.goal.com/kr/%EB%89%B4%EC%8A%A4/%E1%84%8B%E1%85%A7%E1%86%BC%E1%84%8B%E1%85%B5%E1%86%B8-1%E1%84%82%E1%85%A7%E1%86%AB-%E1%84%86%E1%85%A1%E1%86%AB%E1%84%8B%E1%85%A6-%E1%84%8E%E1%85%A6%E1%86%AF%E1%84%89%E1%85%B5%E1%84%89%E1%85%A5-%E1%84%86%E1%85%AF%E1%86%AF-%E1%84%8C%E1%85%A1%E1%86%AF%E1%84%92%E1%85%A2%E1%86%BB%E1%84%83%E1%85%A1%E1%84%80%E1%85%A9--%E1%84%89%E1%85%A2-%E1%84%80%E1%85%A8%E1%84%8B%E1%85%A3%E1%86%A8-%E1%84%8B%E1%85%B5%E1%84%92%E1%85%A2-%E1%84%87%E1%85%AE%E1%86%AF%E1%84%80%E1%85%A1-%E2%86%92%E1%84%87%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%A8-%E1%84%8B%E1%85%A1%E1%86%AB%E1%84%8B%E1%85%A3%E1%86%BC-%E1%84%8B%E1%85%B5%E1%86%BA%E1%84%84%E1%85%A1%E1%84%85%E1%85%A1/blt52b0b784e3f09ea5" target="_blank" rel="noopener noreferrer" class="relative w-full rounded-xl overflow-hidden border border-slate-200 shadow-md bg-white block group hover:border-snu-blue transition-colors">
+                    <img src="./data1/jackson.jpg" alt="여기를 눌러서 보기" class="w-full h-auto object-cover max-h-[400px] group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='https://placehold.co/400x500/0F0D59/ffffff?text=%EC%97%AC%EA%B8%B0%EB%A5%BC+%EB%8A%A0%EB%9F%AC%EC%84%9C+%EB%B3%B4%EA%B8%B0';">
+                </a>
+                <p class="text-[11px] text-slate-500 mt-2.5">이미지 클릭 시 관련 기사 페이지로 이동합니다.</p>
+            </div>
+            <div class="p-3 bg-white border-t border-slate-200 text-right">
+                <button onclick="closePresidentModal()" class="px-4 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-lg transition-colors">
+                    닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Logic & Chart Scripts -->
+    <script>
+        // President Modal handlers
+        function openPresidentModal() {
+            const modal = document.getElementById('presidentModal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closePresidentModal() {
+            const modal = document.getElementById('presidentModal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        // Tab switching logic
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            });
+            // Deactivate all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab content
+            const targetContent = document.getElementById(tabId);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+                targetContent.classList.add('block');
+            }
+
+            // Activate selected tab button
+            const targetBtn = document.getElementById('btn-' + tabId);
+            if (targetBtn) {
+                targetBtn.classList.add('active');
+            }
+        }
+
+        // Initialize Chart.js Graphs on Window Load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Chart 1: Total Admissions Trend (2024 - 2026)
+            const ctx1 = document.getElementById('chartAdmissions').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['2024년', '2025년', '2026년'],
+                    datasets: [{
+                        label: '총 입학자 수(A)',
+                        data: [3746, 3775, 3811],
+                        backgroundColor: ['#1E3A8A', '#2563EB', '#0F0D59'],
+                        borderRadius: 8,
+                        barThickness: 45
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` 총 입학자: ${context.parsed.y.toLocaleString()} 명`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            min: 3600,
+                            max: 3900,
+                            grid: { color: '#E2E8F0' }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // Chart 2: Equal Opportunity Count & Rate
+            const ctx2 = document.getElementById('chartEqualOp').getContext('2d');
+            new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: ['2024년', '2025년', '2026년'],
+                    datasets: [
+                        {
+                            label: '기회균형 선발인원 (명)',
+                            data: [348, 349, 353],
+                            borderColor: '#2563EB',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            fill: true,
+                            tension: 0.3,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: '기회균형 비율 (%)',
+                            data: [9.3, 9.2, 9.3],
+                            borderColor: '#D97706',
+                            borderDash: [5, 5],
+                            pointRadius: 6,
+                            pointBackgroundColor: '#D97706',
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            position: 'left',
+                            min: 330,
+                            max: 370,
+                            title: { display: true, text: '선발 인원(명)' },
+                            grid: { color: '#E2E8F0' }
+                        },
+                        y1: {
+                            type: 'linear',
+                            position: 'right',
+                            min: 8.5,
+                            max: 10.0,
+                            title: { display: true, text: '비율(%)' },
+                            grid: { drawOnChartArea: false }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // Chart 3: 2026 Enrollment Rates by Category
+            const ctx3 = document.getElementById('chartRegistration').getContext('2d');
+            new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: ['수시 지역균형', '수시 일반', '정시 지역균형', '정시 일반', '장애인등(정원외)', '글로벌인재'],
+                    datasets: [{
+                        label: '등록률 (%)',
+                        data: [93.3, 99.1, 99.3, 99.4, 100.0, 100.0],
+                        backgroundColor: [
+                            '#F59E0B', // 수시 지균 (낮음)
+                            '#2563EB',
+                            '#10B981',
+                            '#059669',
+                            '#8B5CF6',
+                            '#6D28D9'  // 글로벌
+                        ],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            min: 90,
+                            max: 100,
+                            grid: { color: '#E2E8F0' }
+                        },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
