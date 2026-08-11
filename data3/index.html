@@ -3,788 +3,693 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025년 어린이 교통사고 심층 분석 보고서</title>
+    <title>2025년 어린이 교통사고 실태 및 요일·시간대별 위험도 심층 분석 보고서</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts (Inter & Noto Sans KR) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Noto Sans KR', 'Inter', 'sans-serif'],
+                        sans: ['Pretendard', 'sans-serif'],
                     },
                     colors: {
                         brand: {
                             50: '#f0f7ff',
                             100: '#e0effe',
-                            500: '#2563eb',
-                            600: '#1d4ed8',
-                            700: '#1e40af',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
                             900: '#1e3a8a',
                         },
                         danger: {
-                            50: '#fef2f2',
-                            100: '#ffe1e1',
-                            500: '#ef4444',
-                            600: '#dc2626',
-                            700: '#b91c1c',
-                        },
-                        warning: {
-                            50: '#fffbe3',
-                            500: '#f59e0b',
-                            600: '#d97706',
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
                         }
                     }
                 }
             }
         }
     </script>
+    
     <style>
-        body { font-family: 'Noto Sans KR', 'Inter', sans-serif; background-color: #f8fafc; }
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        .tab-btn.active { background-color: #2563eb; color: white; shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2); }
-        .heatmap-cell { transition: all 0.2s ease; }
-        .heatmap-cell:hover { transform: scale(1.05); z-index: 10; }
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-panel-hover:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(100, 116, 139, 0.5);
+            border-radius: 4px;
+        }
+
         @media print {
-            .no-print { display: none !important; }
-            .print-break { page-break-before: always; }
-            body { background: white; }
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: #ffffff !important;
+                color: #0f172a !important;
+            }
+            .glass-panel {
+                background: #ffffff !important;
+                border: 1px solid #cbd5e1 !important;
+                color: #0f172a !important;
+                box-shadow: none !important;
+            }
+            .text-slate-100, .text-slate-200, .text-slate-300, .text-white {
+                color: #0f172a !important;
+            }
+            .text-slate-400, .text-slate-500 {
+                color: #475569 !important;
+            }
         }
     </style>
 </head>
-<body class="text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
+<body class="min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white custom-scrollbar">
 
-    <!-- Top Header -->
-    <header class="sticky top-0 z-50 bg-slate-900 text-white shadow-lg border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800/80 px-4 lg:px-8 py-3.5 shadow-xl">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex items-center space-x-3">
-                <span class="bg-rose-500 text-white p-2 rounded-lg text-lg flex items-center justify-center">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                </span>
+                <div class="p-2 bg-indigo-600/20 text-indigo-400 rounded-xl border border-indigo-500/30">
+                    <i class="fa-solid fa-shield-halved text-xl"></i>
+                </div>
                 <div>
-                    <h1 class="text-lg font-bold leading-tight">2025 어린이 교통사고 심층 분석 웹 보고서</h1>
-                    <p class="text-xs text-slate-400">데이터 기반의 표적화된 관리체계(Evidence-based targeted intervention) 구축</p>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400">2025 어린이 교통안전 데이터 리포트</span>
+                    <h1 class="text-lg font-bold text-slate-100 leading-tight">교통사고 실태 및 요일·시간대별 위험도 심층 분석</h1>
                 </div>
             </div>
+            
             <div class="flex items-center space-x-2 no-print">
-                <a href="../index.html" class="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-md border border-slate-700 transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-house"></i> 홈
+                <!-- Home Button -->
+                <a href="../index.html" class="px-3.5 py-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-house text-indigo-400"></i> 홈
                 </a>
-                <button onclick="openMinisterModal()" class="px-3 py-1.5 text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white rounded-md transition flex items-center gap-1.5">
+                
+                <!-- Minister Link Button -->
+                <a href="https://www.google.com/imgres?q=%EB%AC%B4%EB%93%9C%EB%A6%AD&imgurl=https%3A%2F%2Fi.namu.wiki%2Fi%2FHy-p9Rc7jBZZB0VwnyCY4ebhVMLjmCX0hR6svig5Rjp8n1XlOLzLC-QVGb-hhZvRbeLkI4mFhtN4UITHfgpYgg.webp&imgrefurl=https%3A%2F%2Fnamu.wiki%2Fw%2F%25EB%25AF%25B8%25ED%2595%2598%25EC%259D%25BD%25EB%25A1%259C%2520%25EB%25AC%25B4%25EB%2593%259C%25EB%25A6%25AC%25ED%2581%25AC&docid=JCQRktZdsLNSWM&tbnid=KzK-0Dv1k6U8sM&vet=12ahUKEwjX27Gj9peWAxXGs1YBHXLNEPEQnPAOegQIMBAA..i&w=500&h=500&hcb=2&ved=2ahUKEwjX27Gj9peWAxXGs1YBHXLNEPEQnPAOegQIMBAA" 
+                   target="_blank" rel="noopener noreferrer" 
+                   class="px-3.5 py-2 text-xs font-semibold bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white rounded-lg transition shadow-md flex items-center gap-2">
                     <i class="fa-solid fa-user-tie"></i> 도로교통부 장관
-                </button>
-                <button onclick="window.print()" class="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-md border border-slate-700 transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-print"></i> 보고서 인쇄
-                </button>
-                <a href="#risk-calculator" class="px-3 py-1.5 text-xs font-semibold bg-brand-600 hover:bg-brand-500 text-white rounded-md transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-shield-cat"></i> 위험도 진단
                 </a>
+                
+                <!-- Print Button -->
+                <button onclick="window.print()" class="px-3.5 py-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-print text-slate-400"></i> 인쇄
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Minister Modal Popup -->
-    <div id="ministerModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/75 backdrop-blur-sm p-4 transition-all">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-200 relative animate-fade-in">
-            <div class="flex justify-between items-center bg-slate-900 text-white px-5 py-3">
-                <h3 class="font-bold text-sm flex items-center gap-2">
-                    <i class="fa-solid fa-user-tie text-indigo-400"></i> 도로교통부 장관
-                </h3>
-                <button onclick="closeMinisterModal()" class="text-slate-400 hover:text-white text-lg font-bold p-1 transition">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div class="p-4 flex flex-col items-center bg-slate-50">
-                <img src="data3/jackson.jpg" alt="도로교통부 장관" class="w-full h-auto rounded-xl shadow-md border border-slate-200 object-cover max-h-[70vh]" onerror="this.onerror=null; this.src='https://placehold.co/600x400/1e293b/ffffff?text=jackson.jpg';">
-            </div>
-        </div>
-    </div>
-
     <!-- Main Container -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <main class="max-w-7xl mx-auto px-4 lg:px-8 py-8 w-full space-y-8 flex-grow">
 
-        <!-- Executive Banner -->
-        <div class="bg-gradient-to-br from-slate-900 via-brand-900 to-indigo-950 text-white rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
-            <div class="absolute -right-10 -bottom-10 opacity-10 text-white pointer-events-none">
-                <i class="fa-solid fa-child-reaching text-[240px]"></i>
-            </div>
-            <div class="relative z-10 max-w-3xl">
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30 mb-3">
-                    <i class="fa-solid fa-circle-radiation mr-1.5 text-xs"></i> 2025년 확정 통계 분석
-                </span>
-                <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-3">
-                    어린이 보행권 침해 여전히 엄중 — <br class="hidden sm:inline"/>
-                    <span class="text-amber-400">하교·학원 이동기(59%)</span> 및 <span class="text-rose-400">화요일 고치사율(0.44%)</span> 집중 관리 필요
+        <!-- Executive Summary Banner -->
+        <section class="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden border border-slate-700/60 shadow-2xl">
+            <div class="absolute -right-12 -top-12 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-12 -bottom-12 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 space-y-4">
+                <div class="flex items-center space-x-2">
+                    <span class="px-2.5 py-1 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold rounded-full uppercase">총괄 현황 개요</span>
+                    <span class="text-slate-400 text-xs">* 대상: 12세 이하 어린이 사상자 발생 사고</span>
+                </div>
+                
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                    2025년 어린이 교통사고 <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-rose-400">데이터 기반 핵심 요약</span>
                 </h2>
-                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                    2025년 발생한 12세 이하 어린이 교통사고는 총 <strong class="text-white underline">8,780건</strong>으로, 사망자 13명과 부상자 10,801명이 발생했습니다. 전체 사고의 약 60%가 하교 시간에 집중되어 있으며, 평일 특정 요일의 중대 치사율 위험이 매우 높게 분석되었습니다.
+                
+                <p class="text-slate-300 text-sm leading-relaxed max-w-4xl">
+                    2025년 한 해 동안 총 <strong class="text-indigo-400 font-semibold">8,780건</strong>의 어린이 교통사고가 발생하여 <strong class="text-rose-400 font-semibold">13명의 사망자</strong>와 <strong class="text-amber-400 font-semibold">10,801명의 부상자</strong>가 집계되었습니다. 지속적인 안전 대책 추진에도 불구하고 보행권 침해가 심각하며, 특정 고위험 구간에 대한 표적화된 관리체계(Evidence-based targeted intervention)가 시급합니다.
                 </p>
-            </div>
-        </div>
 
-        <!-- Metric KPI Cards -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Card 1 -->
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
-                <div class="flex items-center justify-between text-slate-500 mb-2">
-                    <span class="text-xs font-bold uppercase tracking-wider">총 사고 건수</span>
-                    <span class="p-2 bg-blue-50 text-brand-600 rounded-lg"><i class="fa-solid fa-car-burst"></i></span>
-                </div>
-                <div class="flex items-baseline space-x-2">
-                    <span class="text-3xl font-black text-slate-900">8,780</span>
-                    <span class="text-sm font-semibold text-slate-500">건</span>
-                </div>
-                <p class="text-xs text-slate-500 mt-2">일평균 약 24.05건 발생</p>
-            </div>
+                <!-- KPI Metric Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
+                    <div class="glass-panel p-4 rounded-xl border-l-4 border-l-indigo-500 bg-slate-900/40">
+                        <span class="text-xs text-slate-400 block font-medium">총 사고 발생 건수</span>
+                        <div class="flex items-baseline space-x-1 mt-1">
+                            <span class="text-2xl sm:text-3xl font-black text-white">8,780</span>
+                            <span class="text-xs text-slate-400">건</span>
+                        </div>
+                        <span class="text-[11px] text-indigo-400 mt-1 inline-block">토요일 최다 발생 (1,518건)</span>
+                    </div>
 
-            <!-- Card 2 -->
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
-                <div class="flex items-center justify-between text-slate-500 mb-2">
-                    <span class="text-xs font-bold uppercase tracking-wider text-rose-600">사망자 수</span>
-                    <span class="p-2 bg-rose-50 text-rose-600 rounded-lg"><i class="fa-solid fa-ribbon"></i></span>
-                </div>
-                <div class="flex items-baseline space-x-2">
-                    <span class="text-3xl font-black text-rose-600">13</span>
-                    <span class="text-sm font-semibold text-slate-500">명</span>
-                </div>
-                <p class="text-xs text-rose-600 font-medium mt-2">화요일 5명 집중 (전체의 38.5%)</p>
-            </div>
+                    <div class="glass-panel p-4 rounded-xl border-l-4 border-l-rose-500 bg-slate-900/40">
+                        <span class="text-xs text-slate-400 block font-medium">총 사망자 수</span>
+                        <div class="flex items-baseline space-x-1 mt-1">
+                            <span class="text-2xl sm:text-3xl font-black text-rose-400">13</span>
+                            <span class="text-xs text-slate-400">명</span>
+                        </div>
+                        <span class="text-[11px] text-rose-400 mt-1 inline-block">화요일 최다 사망자 (5명)</span>
+                    </div>
 
-            <!-- Card 3 -->
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
-                <div class="flex items-center justify-between text-slate-500 mb-2">
-                    <span class="text-xs font-bold uppercase tracking-wider">부상자 수</span>
-                    <span class="p-2 bg-amber-50 text-amber-600 rounded-lg"><i class="fa-solid fa-user-ninja"></i></span>
-                </div>
-                <div class="flex items-baseline space-x-2">
-                    <span class="text-3xl font-black text-slate-900">10,801</span>
-                    <span class="text-sm font-semibold text-slate-500">명</span>
-                </div>
-                <p class="text-xs text-slate-500 mt-2">사고당 평균 1.23명 사상</p>
-            </div>
+                    <div class="glass-panel p-4 rounded-xl border-l-4 border-l-amber-500 bg-slate-900/40">
+                        <span class="text-xs text-slate-400 block font-medium">총 부상자 수</span>
+                        <div class="flex items-baseline space-x-1 mt-1">
+                            <span class="text-2xl sm:text-3xl font-black text-amber-300">10,801</span>
+                            <span class="text-xs text-slate-400">명</span>
+                        </div>
+                        <span class="text-[11px] text-amber-400 mt-1 inline-block">토요일 최다 부상 (1,944명)</span>
+                    </div>
 
-            <!-- Card 4 -->
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
-                <div class="flex items-center justify-between text-slate-500 mb-2">
-                    <span class="text-xs font-bold uppercase tracking-wider">하교기 사고 비중</span>
-                    <span class="p-2 bg-indigo-50 text-indigo-600 rounded-lg"><i class="fa-solid fa-clock font-bold"></i></span>
+                    <div class="glass-panel p-4 rounded-xl border-l-4 border-l-emerald-500 bg-slate-900/40">
+                        <span class="text-xs text-slate-400 block font-medium">하교·학원 이동기 사고 비중</span>
+                        <div class="flex items-baseline space-x-1 mt-1">
+                            <span class="text-2xl sm:text-3xl font-black text-emerald-400">59.0</span>
+                            <span class="text-xs text-slate-400">%</span>
+                        </div>
+                        <span class="text-[11px] text-emerald-400 mt-1 inline-block">14시~20시 집중 (5,177건)</span>
+                    </div>
                 </div>
-                <div class="flex items-baseline space-x-2">
-                    <span class="text-3xl font-black text-indigo-600">59.0</span>
-                    <span class="text-sm font-semibold text-slate-500">%</span>
-                </div>
-                <p class="text-xs text-slate-500 mt-2">14시~20시 집중 발생 (5,177건)</p>
             </div>
         </section>
 
         <!-- Interactive Navigation Tabs -->
-        <nav class="flex flex-wrap gap-2 border-b border-slate-200 pb-3 no-print">
-            <button onclick="switchTab('tab-day')" id="btn-tab-day" class="tab-btn active px-4 py-2 text-sm font-bold rounded-lg transition flex items-center gap-2">
-                <i class="fa-solid fa-calendar-days"></i> 1. 요일별 위험도
+        <div class="flex border-b border-slate-800 space-x-2 sm:space-x-4 overflow-x-auto custom-scrollbar no-print">
+            <button onclick="switchTab('day-tab')" id="btn-day-tab" class="tab-btn active px-4 py-3 text-sm font-semibold text-indigo-400 border-b-2 border-indigo-500 transition whitespace-nowrap flex items-center gap-2">
+                <i class="fa-solid fa-calendar-days"></i> 요일별 위험도 분석
             </button>
-            <button onclick="switchTab('tab-time')" id="btn-tab-time" class="tab-btn bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 text-sm font-bold rounded-lg transition flex items-center gap-2">
-                <i class="fa-solid fa-clock"></i> 2. 시간대별 패턴
+            <button onclick="switchTab('time-tab')" id="btn-time-tab" class="tab-btn px-4 py-3 text-sm font-semibold text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap flex items-center gap-2">
+                <i class="fa-solid fa-clock"></i> 시간대별 이동 위험
             </button>
-            <button onclick="switchTab('tab-nexus')" id="btn-tab-nexus" class="tab-btn bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 text-sm font-bold rounded-lg transition flex items-center gap-2">
-                <i class="fa-solid fa-bolt"></i> 3. 요일×시간대 핫스팟
+            <button onclick="switchTab('matrix-tab')" id="btn-matrix-tab" class="tab-btn px-4 py-3 text-sm font-semibold text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap flex items-center gap-2">
+                <i class="fa-solid fa-triangle-exclamation"></i> 고위험 복합 접점 (핫스팟)
             </button>
-            <button onclick="switchTab('tab-policy')" id="btn-tab-policy" class="tab-btn bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 text-sm font-bold rounded-lg transition flex items-center gap-2">
-                <i class="fa-solid fa-lightbulb"></i> 4. 정책 제안 (3대 대책)
+            <button onclick="switchTab('sim-tab')" id="btn-sim-tab" class="tab-btn px-4 py-3 text-sm font-semibold text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap flex items-center gap-2">
+                <i class="fa-solid fa-calculator"></i> 실시간 위험도 진단
             </button>
-        </nav>
+            <button onclick="switchTab('policy-tab')" id="btn-policy-tab" class="tab-btn px-4 py-3 text-sm font-semibold text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap flex items-center gap-2">
+                <i class="fa-solid fa-lightbulb"></i> 맞춤형 정책 제안
+            </button>
+        </div>
 
-        <!-- TAB CONTENT 1: 요일별 사고 특성 -->
-        <div id="tab-day" class="tab-content space-y-6">
+        <!-- TAB CONTENT SECTIONS -->
+
+        <!-- 1. Day Analysis Tab -->
+        <div id="day-tab" class="tab-content space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Data Table -->
-                <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                <!-- Chart Box -->
+                <div class="lg:col-span-2 glass-panel p-6 rounded-2xl space-y-4">
                     <div class="flex items-center justify-between">
-                        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-                            <i class="fa-solid fa-table text-brand-600"></i> 요일별 어린이 교통사고 및 치사율 통계
-                        </h3>
-                        <span class="text-xs text-slate-500 font-medium">* 치사율 = (사망자 수 / 사고 건수) × 100</span>
-                    </div>
-
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left text-slate-600">
-                            <thead class="text-xs text-slate-700 uppercase bg-slate-100 border-b border-slate-200">
-                                <tr>
-                                    <th scope="col" class="px-4 py-3 font-bold">요일</th>
-                                    <th scope="col" class="px-4 py-3 font-bold text-right">사고 건수(건)</th>
-                                    <th scope="col" class="px-4 py-3 font-bold text-right">사망자 수(명)</th>
-                                    <th scope="col" class="px-4 py-3 font-bold text-right">부상자 수(명)</th>
-                                    <th scope="col" class="px-4 py-3 font-bold text-right">치사율(%)</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100">
-                                <tr class="hover:bg-slate-50">
-                                    <td class="px-4 py-3 font-medium text-slate-900">일요일</td>
-                                    <td class="px-4 py-3 text-right">1,367</td>
-                                    <td class="px-4 py-3 text-right text-slate-700">1</td>
-                                    <td class="px-4 py-3 text-right">1,808</td>
-                                    <td class="px-4 py-3 text-right font-medium">0.07%</td>
-                                </tr>
-                                <tr class="hover:bg-slate-50">
-                                    <td class="px-4 py-3 font-medium text-slate-900">월요일</td>
-                                    <td class="px-4 py-3 text-right">1,176</td>
-                                    <td class="px-4 py-3 text-right text-slate-700">2</td>
-                                    <td class="px-4 py-3 text-right">1,405</td>
-                                    <td class="px-4 py-3 text-right font-medium">0.17%</td>
-                                </tr>
-                                <tr class="bg-rose-50/70 hover:bg-rose-100/80 font-bold text-rose-900">
-                                    <td class="px-4 py-3 flex items-center gap-1.5">
-                                        <span>화요일</span>
-                                        <span class="px-1.5 py-0.5 text-[10px] bg-rose-600 text-white rounded font-bold">최고위험</span>
-                                    </td>
-                                    <td class="px-4 py-3 text-right">1,127</td>
-                                    <td class="px-4 py-3 text-right text-rose-600 text-base">5</td>
-                                    <td class="px-4 py-3 text-right">1,376</td>
-                                    <td class="px-4 py-3 text-right text-rose-600 text-base">0.44%</td>
-                                </tr>
-                                <tr class="hover:bg-slate-50">
-                                    <td class="px-4 py-3 font-medium text-slate-900">수요일</td>
-                                    <td class="px-4 py-3 text-right">1,235</td>
-                                    <td class="px-4 py-3 text-right text-slate-400">0</td>
-                                    <td class="px-4 py-3 text-right">1,447</td>
-                                    <td class="px-4 py-3 text-right text-slate-400">0.00%</td>
-                                </tr>
-                                <tr class="bg-emerald-50/50 hover:bg-emerald-100/50">
-                                    <td class="px-4 py-3 font-medium text-slate-900 flex items-center gap-1.5">
-                                        <span>목요일</span>
-                                        <span class="px-1.5 py-0.5 text-[10px] bg-emerald-600 text-white rounded font-bold">최저발생</span>
-                                    </td>
-                                    <td class="px-4 py-3 text-right font-bold text-emerald-700">1,085</td>
-                                    <td class="px-4 py-3 text-right text-slate-400">0</td>
-                                    <td class="px-4 py-3 text-right">1,275</td>
-                                    <td class="px-4 py-3 text-right text-slate-400">0.00%</td>
-                                </tr>
-                                <tr class="hover:bg-slate-50">
-                                    <td class="px-4 py-3 font-medium text-slate-900">금요일</td>
-                                    <td class="px-4 py-3 text-right">1,272</td>
-                                    <td class="px-4 py-3 text-right text-slate-700">2</td>
-                                    <td class="px-4 py-3 text-right">1,546</td>
-                                    <td class="px-4 py-3 text-right font-medium">0.16%</td>
-                                </tr>
-                                <tr class="bg-amber-50/50 hover:bg-amber-100/50">
-                                    <td class="px-4 py-3 font-medium text-slate-900 flex items-center gap-1.5">
-                                        <span>토요일</span>
-                                        <span class="px-1.5 py-0.5 text-[10px] bg-amber-600 text-white rounded font-bold">최다발생</span>
-                                    </td>
-                                    <td class="px-4 py-3 text-right font-bold text-amber-800">1,518</td>
-                                    <td class="px-4 py-3 text-right text-slate-700">3</td>
-                                    <td class="px-4 py-3 text-right font-bold">1,944</td>
-                                    <td class="px-4 py-3 text-right font-medium">0.20%</td>
-                                </tr>
-                            </tbody>
-                            <tfoot class="bg-slate-200/80 font-bold text-slate-900 border-t-2 border-slate-300">
-                                <tr>
-                                    <td class="px-4 py-3">합계 / 평균</td>
-                                    <td class="px-4 py-3 text-right">8,780</td>
-                                    <td class="px-4 py-3 text-right text-rose-600">13</td>
-                                    <td class="px-4 py-3 text-right">10,801</td>
-                                    <td class="px-4 py-3 text-right text-brand-700">0.15%</td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Analysis Key Takeaways -->
-                <div class="bg-slate-900 text-white p-6 rounded-2xl shadow-sm flex flex-col justify-between">
-                    <div>
-                        <h4 class="text-amber-400 text-xs font-bold uppercase tracking-widest mb-2">요일별 핵심 위험 특성</h4>
-                        <h3 class="text-xl font-bold mb-4 leading-snug">발생 빈도와 치사율의 명확한 불일치 현상</h3>
-                        
-                        <div class="space-y-4 text-sm text-slate-300">
-                            <div class="p-3 bg-slate-800/80 rounded-lg border-l-4 border-amber-500">
-                                <strong class="text-white block mb-0.5">토요일 최다 발생 (1,518건)</strong>
-                                주말 야외 활동 증가로 절대적 사고 빈도가 가장 높음 (전체 부상자도 1,944명으로 최대).
-                            </div>
-
-                            <div class="p-3 bg-slate-800/80 rounded-lg border-l-4 border-rose-500">
-                                <strong class="text-white block mb-0.5">화요일 치사율 특이점 (0.44%)</strong>
-                                전체 평균(0.15%)의 <span class="text-rose-400 font-bold">약 2.93배</span>에 달함. 사망자 5명이 특정 시간이 아닌 08~22시 전 시간대에 광범위하게 나타남.
-                            </div>
-
-                            <div class="p-3 bg-slate-800/80 rounded-lg border-l-4 border-emerald-500">
-                                <strong class="text-white block mb-0.5">목요일 최저 발생 (1,085건)</strong>
-                                절대 발생 건수가 가장 적으며 사망자 발생 건수 없음 (0건).
-                            </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white flex items-center gap-2">
+                                <i class="fa-chart-column text-indigo-400"></i> 요일별 사고 건수 및 치사율 현황
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-0.5">사고 빈도(건수)와 심각도(치사율)의 불일치 특성 시각화</p>
                         </div>
+                        <span class="px-2.5 py-1 bg-slate-800 text-slate-300 text-xs rounded-lg border border-slate-700">전체 평균 치사율: 0.15%</span>
                     </div>
-
-                    <div class="mt-6 pt-4 border-t border-slate-800 text-xs text-slate-400">
-                        <i class="fa-solid fa-circle-info text-brand-400 mr-1"></i> 시사점: 화요일은 주중 중대사고 예방을 위한 '고위험 특별 관리 요일' 지정이 요구됩니다.
+                    <div class="h-72 relative">
+                        <canvas id="dayOfWeekChart"></canvas>
                     </div>
                 </div>
-            </div>
 
-            <!-- Chart Section 1 -->
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-chart-column text-brand-600"></i> 요일별 사고 발생 건수 vs 치사율 추이
-                </h3>
-                <p class="text-xs text-slate-500 mb-4">막대는 사고 발생 건수(좌측 축), 꺾은선은 사고 100건당 사망자 수인 치사율(우측 축)을 나타냅니다.</p>
-                <div class="h-80 w-full">
-                    <canvas id="dayChart"></canvas>
+                <!-- Day Insights Cards -->
+                <div class="space-y-4 flex flex-col justify-between">
+                    <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-rose-500 bg-rose-950/10 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-rose-400 uppercase tracking-wider">특이점 01. 최고 치사율</span>
+                            <span class="px-2 py-0.5 bg-rose-500/20 text-rose-300 text-xs font-extrabold rounded">화요일 0.44%</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-100">발생 빈도와 치사율의 비대칭성</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            화요일의 치사율은 **0.44%**로 전체 평균(0.15%)의 **약 3배**에 달합니다. 총 사망자 13명 중 **5명(38.5%)**이 화요일 하루에 집중 발생했습니다.
+                        </p>
+                    </div>
+
+                    <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-indigo-500 bg-indigo-950/10 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">특이점 02. 최다 발생</span>
+                            <span class="px-2 py-0.5 bg-indigo-500/20 text-indigo-300 text-xs font-extrabold rounded">토요일 1,518건</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-100">주말 활동량 증가로 인한 빈도 집중</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            가장 많은 사고가 발생하는 날은 **토요일(1,518건, 사망 3명)** 및 **일요일(1,367건)**로, 주말 이동량 급증이 주요 사고 원인입니다.
+                        </p>
+                    </div>
+
+                    <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-emerald-500 bg-emerald-950/10 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">특이점 03. 최저 위험</span>
+                            <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 text-xs font-extrabold rounded">목요일 1,085건</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-100">가장 안전한 요일</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            **목요일(1,085건)**은 사고 발생량이 가장 적고 사망자도 발생하지 않아 평일 중 상대적으로 가장 안전한 것으로 나타났습니다.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB CONTENT 2: 시간대별 패턴 -->
-        <div id="tab-time" class="tab-content hidden space-y-6">
+        <!-- 2. Time Slot Analysis Tab -->
+        <div id="time-tab" class="tab-content hidden space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Time Slot Top 3 Cards -->
-                <div class="lg:col-span-1 space-y-4">
-                    <div class="bg-gradient-to-br from-rose-50 to-orange-50 p-5 rounded-2xl border border-rose-200 shadow-sm">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="px-2.5 py-1 text-xs font-black bg-rose-600 text-white rounded-md">TOP 1 위험시간대</span>
-                            <span class="text-xs font-semibold text-rose-700">최정점 위험군</span>
+                <!-- Time Chart -->
+                <div class="lg:col-span-2 glass-panel p-6 rounded-2xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-base font-bold text-white flex items-center gap-2">
+                                <i class="fa-clock text-amber-400"></i> 시간대별 어린이 교통사고 분포
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-0.5">하교 및 학원 이동 시간대(14시~20시) 위험 편중 현황</p>
                         </div>
-                        <h4 class="text-2xl font-black text-slate-900">16시 ~ 18시</h4>
-                        <p class="text-3xl font-black text-rose-600 my-1">2,038 <span class="text-sm font-normal text-slate-600">건</span></p>
-                        <p class="text-xs text-slate-600">초등학교 하교 및 학원 이동이 최고조에 달하는 시간대입니다.</p>
+                        <span class="px-2.5 py-1 bg-amber-500/20 text-amber-300 text-xs font-bold rounded-lg border border-amber-500/30">하교기 비중 59%</span>
                     </div>
-
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="px-2.5 py-1 text-xs font-bold bg-amber-500 text-white rounded-md">TOP 2 위험시간대</span>
-                            <span class="text-xs font-semibold text-amber-700">하교 시작기</span>
-                        </div>
-                        <h4 class="text-xl font-bold text-slate-900">14시 ~ 16시</h4>
-                        <p class="text-2xl font-black text-amber-600 my-1">1,699 <span class="text-sm font-normal text-slate-600">건</span></p>
-                        <p class="text-xs text-slate-500">저학년 하교가 본격 시작되는 구간입니다.</p>
-                    </div>
-
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="px-2.5 py-1 text-xs font-bold bg-blue-600 text-white rounded-md">TOP 3 위험시간대</span>
-                            <span class="text-xs font-semibold text-brand-700">귀가 및 학원 이동</span>
-                        </div>
-                        <h4 class="text-xl font-bold text-slate-900">18시 ~ 20시</h4>
-                        <p class="text-2xl font-black text-brand-600 my-1">1,440 <span class="text-sm font-normal text-slate-600">건</span></p>
-                        <p class="text-xs text-slate-500">학원 수업 종료 및 저녁 귀가 시간대입니다.</p>
+                    <div class="h-72 relative">
+                        <canvas id="timeSlotChart"></canvas>
                     </div>
                 </div>
 
-                <!-- Deep Analysis Content -->
-                <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-                            <i class="fa-solid fa-person-walking-luggage text-brand-600"></i> 시간대별 특이점 및 등·하교 위험 비교
-                        </h3>
+                <!-- Time Slot Top 3 & Insights -->
+                <div class="glass-panel p-6 rounded-2xl space-y-4 flex flex-col justify-between">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-ranking-star text-rose-400"></i> 집중 위험 시간대 TOP 3
+                    </h3>
 
-                        <!-- 59% Highlight Box -->
-                        <div class="bg-slate-900 text-white p-5 rounded-xl mb-6 relative overflow-hidden">
-                            <div class="flex items-center justify-between relative z-10">
+                    <div class="space-y-3">
+                        <div class="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-7 h-7 bg-rose-500 text-white rounded-lg flex items-center justify-center font-black text-xs">1</span>
                                 <div>
-                                    <span class="text-xs uppercase font-bold tracking-wider text-amber-400">하교 및 학원 이동기 (14시~20시)</span>
-                                    <h4 class="text-2xl font-black text-white mt-1">사고 집중도 약 59.0% (5,177건)</h4>
-                                    <p class="text-xs text-slate-300 mt-1">2025년 발생한 전체 어린이 교통사고 8,780건 중 대다수가 이 6시간에 집중됨.</p>
-                                </div>
-                                <div class="text-4xl font-black text-amber-400 hidden sm:block">
-                                    59%
+                                    <div class="text-sm font-bold text-white">16시 ~ 18시</div>
+                                    <div class="text-[11px] text-rose-300">최정점 피크 시간대</div>
                                 </div>
                             </div>
+                            <span class="text-base font-black text-rose-400">2,038건</span>
                         </div>
 
-                        <!-- Arrival vs Dismissal comparison -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                                <div class="flex justify-between items-center mb-1">
-                                    <span class="text-xs font-bold text-slate-500">등교 시간대 (08시~10시)</span>
-                                    <span class="text-xs font-bold text-slate-700">921건</span>
+                        <div class="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-7 h-7 bg-amber-500 text-white rounded-lg flex items-center justify-center font-black text-xs">2</span>
+                                <div>
+                                    <div class="text-sm font-bold text-white">14시 ~ 16시</div>
+                                    <div class="text-[11px] text-amber-300">하교 시작 시간대</div>
                                 </div>
-                                <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
-                                    <div class="bg-slate-500 h-2.5 rounded-full" style="width: 45%"></div>
-                                </div>
-                                <p class="text-[11px] text-slate-500 mt-2">녹색어머니회, 녹색교통지도원 등 보호 지도 인력이 상대적으로 촘촘함.</p>
                             </div>
-
-                            <div class="p-4 rounded-xl bg-rose-50 border border-rose-200">
-                                <div class="flex justify-between items-center mb-1">
-                                    <span class="text-xs font-bold text-rose-700">하교 피크 (16시~18시)</span>
-                                    <span class="text-xs font-bold text-rose-600">2,038건</span>
-                                </div>
-                                <div class="w-full bg-rose-200 h-2.5 rounded-full overflow-hidden">
-                                    <div class="bg-rose-600 h-2.5 rounded-full" style="width: 100%"></div>
-                                </div>
-                                <p class="text-[11px] text-rose-700 font-semibold mt-2">등교 시간 대비 약 <strong class="text-rose-800 underline">2.21배</strong> 더 높은 사고 발생!</p>
-                            </div>
+                            <span class="text-base font-black text-amber-400">1,699건</span>
                         </div>
 
-                        <p class="text-xs text-slate-600 leading-relaxed bg-amber-50 p-3 rounded-lg border border-amber-200">
-                            <i class="fa-solid fa-triangle-exclamation text-amber-600 mr-1"></i>
-                            <strong>원인 분석:</strong> 등교 시에 비해 하교 시에는 학년별 하교 시간 다변화, 보호 지도 인력 부재, 학원차량 혼잡, 어린이들의 방심 및 주의산만 등이 복합 작용하는 것으로 분석됩니다.
+                        <div class="p-3 bg-indigo-500/10 border border-indigo-500/30 rounded-xl flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-7 h-7 bg-indigo-500 text-white rounded-lg flex items-center justify-center font-black text-xs">3</span>
+                                <div>
+                                    <div class="text-sm font-bold text-white">18시 ~ 20시</div>
+                                    <div class="text-[11px] text-indigo-300">학원 이동 및 귀가 시간대</div>
+                                </div>
+                            </div>
+                            <span class="text-base font-black text-indigo-400">1,440건</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-700/80 text-xs text-slate-300 space-y-2">
+                        <div class="font-bold text-indigo-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-code-compare"></i> 등교 vs 하교 위험도 비교
+                        </div>
+                        <p>
+                            등교 시간대(8시~10시: <strong>921건</strong>) 대비 하교 피크 시간대(16시~18시: <strong>2,038건</strong>) 사고는 무려 <strong class="text-rose-400">2.21배</strong> 더 많이 발생했습니다.
                         </p>
                     </div>
                 </div>
             </div>
-
-            <!-- Time Chart -->
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-chart-area text-brand-600"></i> 시간대별 어린이 교통사고 분포 (Top 3 영역 강조)
-                </h3>
-                <div class="h-72 w-full">
-                    <canvas id="timeChart"></canvas>
-                </div>
-            </div>
         </div>
 
-        <!-- TAB CONTENT 3: 요일x시간대 핫스팟 (복합 분석) -->
-        <div id="tab-nexus" class="tab-content hidden space-y-6">
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+        <!-- 3. Complex Hotspot Tab -->
+        <div id="matrix-tab" class="tab-content hidden space-y-6">
+            <div class="glass-panel p-6 rounded-2xl space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div>
-                        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-                            <i class="fa-solid fa-fire text-rose-600"></i> 요일 및 시간대 복합 분석 고위험 구간 (Highest Risk Nexus)
+                        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-fire text-rose-500"></i> 요일 및 시간대 복합 고위험 구간 (Hotspots)
                         </h3>
-                        <p class="text-xs text-slate-500">특정 요일과 특정 시간대가 맞물릴 때 발생하는 정점 위험 지점 분석</p>
+                        <p class="text-xs text-slate-400">특정 요일과 시간대가 결합하여 위험이 극대화되는 최고 위험 접점 분석</p>
                     </div>
-                    <div class="flex items-center space-x-3 text-xs">
-                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-rose-600 rounded"></span> 최고 위험 (300건 이상)</span>
-                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-500 rounded"></span> 주의 (250~300건)</span>
-                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-indigo-900 rounded"></span> 야간 치사 위험</span>
-                    </div>
-                </div>
-
-                <!-- Highlight Cards for 3 key nexus -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <!-- Nexus 1 -->
-                    <div class="p-4 rounded-xl border-2 border-rose-500 bg-rose-50/50 relative">
-                        <span class="absolute top-3 right-3 px-2 py-0.5 text-[10px] bg-rose-600 text-white font-bold rounded">최고 위험 접점</span>
-                        <div class="text-xs font-bold text-rose-700">금요일 16시 ~ 18시</div>
-                        <div class="text-3xl font-black text-rose-700 my-1">332 <span class="text-sm font-normal text-slate-600">건</span></div>
-                        <p class="text-xs text-slate-600 leading-snug">
-                            주말을 앞둔 차량 통행량 급증과 학생들의 하교 활동이 상충하는 최다 사고 발생 구간.
-                        </p>
-                    </div>
-
-                    <!-- Nexus 2 -->
-                    <div class="p-4 rounded-xl border-2 border-amber-500 bg-amber-50/50 relative">
-                        <span class="absolute top-3 right-3 px-2 py-0.5 text-[10px] bg-amber-600 text-white font-bold rounded">주말 가족이동 피크</span>
-                        <div class="text-xs font-bold text-amber-800">토요일 14시 ~ 16시</div>
-                        <div class="text-3xl font-black text-amber-800 my-1">284 <span class="text-sm font-normal text-slate-600">건</span></div>
-                        <p class="text-xs text-slate-600 leading-snug">
-                            주말 가족 단위 야외 활동 및 이동 최고조 시기. 주택가 및 공원 인근 주의 요망.
-                        </p>
-                    </div>
-
-                    <!-- Nexus 3 -->
-                    <div class="p-4 rounded-xl border-2 border-indigo-900 bg-indigo-50 relative">
-                        <span class="absolute top-3 right-3 px-2 py-0.5 text-[10px] bg-indigo-900 text-white font-bold rounded">야간 치사율 경보</span>
-                        <div class="text-xs font-bold text-indigo-900">토요일 야간 (20시 ~ 24시)</div>
-                        <div class="text-3xl font-black text-indigo-950 my-1">사망자 2<span class="text-sm font-normal text-slate-600"> 명</span></div>
-                        <p class="text-xs text-slate-600 leading-snug">
-                            건수는 적으나 심각도 매우 높음. 토요일 20~22시 1명, 22~24시 1명 사망 발생.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Simulated Heatmap Grid -->
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <h4 class="text-xs font-bold text-slate-700 uppercase mb-3">요일 × 핵심 시간대별 사고밀도 시각화</h4>
-                    <div class="grid grid-cols-8 gap-1.5 text-center text-xs">
-                        <!-- Header row -->
-                        <div class="font-bold text-slate-400 p-2">시간/요일</div>
-                        <div class="font-bold text-slate-700 p-2 bg-slate-200/60 rounded">일</div>
-                        <div class="font-bold text-slate-700 p-2 bg-slate-200/60 rounded">월</div>
-                        <div class="font-bold text-slate-700 p-2 bg-slate-200/60 rounded">화</div>
-                        <div class="font-bold text-slate-700 p-2 bg-slate-200/60 rounded">수</div>
-                        <div class="font-bold text-slate-700 p-2 bg-slate-200/60 rounded">목</div>
-                        <div class="font-bold text-slate-700 p-2 bg-slate-200/60 rounded">금</div>
-                        <div class="font-bold text-slate-700 p-2 bg-slate-200/60 rounded">토</div>
-
-                        <!-- Row 08-10 -->
-                        <div class="font-semibold text-slate-500 py-2.5">08~10시</div>
-                        <div class="heatmap-cell bg-slate-100 p-2 rounded text-slate-600">85</div>
-                        <div class="heatmap-cell bg-blue-100 p-2 rounded text-blue-900 font-medium">142</div>
-                        <div class="heatmap-cell bg-rose-100 border border-rose-300 p-2 rounded text-rose-900 font-bold" title="화요일 사망 1건">138*</div>
-                        <div class="heatmap-cell bg-blue-100 p-2 rounded text-blue-900 font-medium">145</div>
-                        <div class="heatmap-cell bg-blue-100 p-2 rounded text-blue-900 font-medium">130</div>
-                        <div class="heatmap-cell bg-blue-100 p-2 rounded text-blue-900 font-medium">151</div>
-                        <div class="heatmap-cell bg-amber-100 p-2 rounded text-amber-900">130</div>
-
-                        <!-- Row 14-16 -->
-                        <div class="font-semibold text-slate-500 py-2.5">14~16시</div>
-                        <div class="heatmap-cell bg-amber-200 p-2 rounded text-amber-900 font-bold">220</div>
-                        <div class="heatmap-cell bg-amber-200 p-2 rounded text-amber-900 font-bold">235</div>
-                        <div class="heatmap-cell bg-rose-200 p-2 rounded text-rose-900 font-bold">228</div>
-                        <div class="heatmap-cell bg-amber-200 p-2 rounded text-amber-900 font-bold">240</div>
-                        <div class="heatmap-cell bg-amber-100 p-2 rounded text-amber-900 font-medium">210</div>
-                        <div class="heatmap-cell bg-amber-300 p-2 rounded text-amber-950 font-bold">282</div>
-                        <div class="heatmap-cell bg-amber-400 p-2 rounded text-amber-950 font-black border-2 border-amber-600">284</div>
-
-                        <!-- Row 16-18 -->
-                        <div class="font-semibold text-slate-500 py-2.5">16~18시</div>
-                        <div class="heatmap-cell bg-amber-300 p-2 rounded text-amber-950 font-bold">275</div>
-                        <div class="heatmap-cell bg-rose-300 p-2 rounded text-rose-950 font-bold">290</div>
-                        <div class="heatmap-cell bg-rose-300 p-2 rounded text-rose-950 font-bold">285</div>
-                        <div class="heatmap-cell bg-amber-300 p-2 rounded text-amber-950 font-bold">295</div>
-                        <div class="heatmap-cell bg-amber-200 p-2 rounded text-amber-900 font-bold">260</div>
-                        <div class="heatmap-cell bg-rose-600 text-white font-black p-2 rounded shadow border-2 border-rose-700">332</div>
-                        <div class="heatmap-cell bg-amber-300 p-2 rounded text-amber-950 font-bold">301</div>
-
-                        <!-- Row 20-24 -->
-                        <div class="font-semibold text-slate-500 py-2.5">20~24시</div>
-                        <div class="heatmap-cell bg-slate-200 p-2 rounded text-slate-700">92</div>
-                        <div class="heatmap-cell bg-slate-100 p-2 rounded text-slate-600">65</div>
-                        <div class="heatmap-cell bg-rose-100 p-2 rounded text-rose-900">72</div>
-                        <div class="heatmap-cell bg-slate-100 p-2 rounded text-slate-600">68</div>
-                        <div class="heatmap-cell bg-slate-100 p-2 rounded text-slate-600">60</div>
-                        <div class="heatmap-cell bg-slate-200 p-2 rounded text-slate-700">98</div>
-                        <div class="heatmap-cell bg-indigo-900 text-white font-bold p-2 rounded border-2 border-indigo-400" title="토요일 야간 사망자 2명 발생">112★</div>
-                    </div>
-                    <div class="mt-2 text-[11px] text-slate-500 flex justify-between">
-                        <span>* 표시: 화요일 전시간대 광범위 사망자 발생 구간</span>
-                        <span>★ 표시: 토요일 야간 20~24시 사망자 2명 집중 구간</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB CONTENT 4: 정책 제안 -->
-        <div id="tab-policy" class="tab-content hidden space-y-6">
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <div class="mb-6">
-                    <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Evidence-based targeted intervention</span>
-                    <h3 class="text-xl font-black text-slate-900 mt-1">분석 결과 기반 3대 핵심 교통안전 정책 제안</h3>
-                    <p class="text-xs text-slate-500 mt-1">데이터에 근거하여 시간대별·요일별 맞춤형 대응 체계 구축 권고</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Proposal 1 -->
-                    <div class="bg-gradient-to-b from-blue-50 to-white p-6 rounded-2xl border border-blue-200 shadow-sm flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 bg-brand-600 text-white rounded-xl flex items-center justify-center font-black text-lg mb-4">
-                                01
-                            </div>
-                            <h4 class="font-bold text-lg text-slate-900 mb-2">하교 및 학원 이동기 보행 안전 관리 최적화</h4>
-                            <p class="text-xs text-slate-600 leading-relaxed space-y-2">
-                                전체 사고의 <strong class="text-brand-600">59%가 집중되는 14시~20시</strong>를 '집중 관리 구간'으로 공식 지정합니다.
-                            </p>
-                            <ul class="mt-4 space-y-2 text-xs text-slate-700">
-                                <li class="flex items-start gap-1.5">
-                                    <i class="fa-solid fa-check text-brand-600 mt-0.5"></i>
-                                    <span><strong>보행안전도우미(Walking School Bus)</strong> 및 시니어 안전 인력을 14~20시에 집중 재배치</span>
-                                </li>
-                                <li class="flex items-start gap-1.5">
-                                    <i class="fa-solid fa-check text-brand-600 mt-0.5"></i>
-                                    <span>학원 밀집 지역 중심의 유동적 가변 순찰 체계 대폭 강화</span>
-                                </li>
-                            </ul>
+                    <!-- Hotspot 1 -->
+                    <div class="p-5 rounded-2xl bg-gradient-to-br from-rose-950/40 to-slate-900 border border-rose-500/30 space-y-3 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-20 h-20 bg-rose-500/10 rounded-full blur-xl"></div>
+                        <div class="flex justify-between items-start">
+                            <span class="px-2.5 py-1 bg-rose-500/20 text-rose-300 text-xs font-bold rounded-lg border border-rose-500/40">최고 위험 접점</span>
+                            <span class="text-2xl font-black text-rose-400">332건</span>
                         </div>
-                        <div class="mt-6 pt-3 border-t border-blue-100 text-[11px] font-semibold text-brand-700">
-                            대상 구간: 평일 14:00 ~ 20:00
+                        <h4 class="text-base font-bold text-white">금요일 16시 ~ 18시</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            평일 중 가장 사고 발생 빈도가 높은 지점입니다. 주말을 앞두고 차량 통행량이 급증함과 동시에 초등학생들의 하교 활동이 상충하여 사고 위험이 극대화됩니다.
+                        </p>
+                    </div>
+
+                    <!-- Hotspot 2 -->
+                    <div class="p-5 rounded-2xl bg-gradient-to-br from-amber-950/40 to-slate-900 border border-amber-500/30 space-y-3 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-20 h-20 bg-amber-500/10 rounded-full blur-xl"></div>
+                        <div class="flex justify-between items-start">
+                            <span class="px-2.5 py-1 bg-amber-500/20 text-amber-300 text-xs font-bold rounded-lg border border-amber-500/40">주말 가족 이동</span>
+                            <span class="text-2xl font-black text-amber-400">284건</span>
+                        </div>
+                        <h4 class="text-base font-bold text-white">토요일 14시 ~ 16시</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            주말 가족 단위 야외 활동 및 야외 보행 이동이 정점에 달하는 시간대입니다. 주택가, 공원, 놀이시설 인근의 차량 통행 집중 주의가 요급됩니다.
+                        </p>
+                    </div>
+
+                    <!-- Hotspot 3 -->
+                    <div class="p-5 rounded-2xl bg-gradient-to-br from-purple-950/40 to-slate-900 border border-purple-500/30 space-y-3 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-20 h-20 bg-purple-500/10 rounded-full blur-xl"></div>
+                        <div class="flex justify-between items-start">
+                            <span class="px-2.5 py-1 bg-purple-500/20 text-purple-300 text-xs font-bold rounded-lg border border-purple-500/40">야간 중대 사고</span>
+                            <span class="text-2xl font-black text-purple-400">사망 2명</span>
+                        </div>
+                        <h4 class="text-base font-bold text-white">토요일 야간 (20시 ~ 24시)</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            건수는 비교적 적으나 치사율이 극도로 높습니다. 토요일 20시~22시(1명), 22시~24시(1명) 총 2명의 사망자가 집중 발생하였습니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Interactive Risk Simulator Tab -->
+        <div id="sim-tab" class="tab-content hidden space-y-6">
+            <div class="glass-panel p-6 rounded-2xl space-y-6">
+                <div class="border-b border-slate-800 pb-4">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-calculator text-indigo-400"></i> 실시간 요일·시간대 위험도 진단기
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1">요일과 시간대를 선택하면 해당 조건의 예측 사고 위험도와 주의 지침을 진단해 드립니다.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <!-- Control Selectors -->
+                    <div class="space-y-5">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-300 block">1. 요일 선택</label>
+                            <select id="sim-day" onchange="runRiskDiagnosis()" class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-3 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="일요일">일요일</option>
+                                <option value="월요일">월요일</option>
+                                <option value="화요일">화요일 (고위험 요일)</option>
+                                <option value="수요일">수요일</option>
+                                <option value="목요일">목요일 (최저 요일)</option>
+                                <option value="금요일" selected>금요일 (하교 피크)</option>
+                                <option value="토요일">토요일 (최다 발생)</option>
+                            </select>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-300 block">2. 시간대 선택</label>
+                            <select id="sim-time" onchange="runRiskDiagnosis()" class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-3 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="08-10">08시 ~ 10시 (등교기)</option>
+                                <option value="10-12">10시 ~ 12시</option>
+                                <option value="12-14">12시 ~ 14시 (점심시간)</option>
+                                <option value="14-16">14시 ~ 16시 (하교 시작)</option>
+                                <option value="16-18" selected>16시 ~ 18시 (최정점 위험)</option>
+                                <option value="18-20">18시 ~ 20시 (학원/귀가)</option>
+                                <option value="20-22">20시 ~ 22시 (야간)</option>
+                                <option value="22-24">22시 ~ 24시 (심야)</option>
+                            </select>
                         </div>
                     </div>
 
-                    <!-- Proposal 2 -->
-                    <div class="bg-gradient-to-b from-rose-50 to-white p-6 rounded-2xl border border-rose-200 shadow-sm flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 bg-rose-600 text-white rounded-xl flex items-center justify-center font-black text-lg mb-4">
-                                02
-                            </div>
-                            <h4 class="font-bold text-lg text-slate-900 mb-2">중대 사고 예방을 위한 요일별 정밀 진단</h4>
-                            <p class="text-xs text-slate-600 leading-relaxed">
-                                치사율이 비정상적으로 높은 <strong class="text-rose-600">화요일(0.44%)</strong> 원인 분석을 위해 특별 프로토콜을 가동합니다.
-                            </p>
-                            <ul class="mt-4 space-y-2 text-xs text-slate-700">
-                                <li class="flex items-start gap-1.5">
-                                    <i class="fa-solid fa-check text-rose-600 mt-0.5"></i>
-                                    <span>'중대사고 예방 프로토콜' 가동 및 화요일 사고 발생지 도로 환경 전수 점검</span>
-                                </li>
-                                <li class="flex items-start gap-1.5">
-                                    <i class="fa-solid fa-check text-rose-600 mt-0.5"></i>
-                                    <span>무인 단속 카메라, 과속 방지턱 등 안전 시설물 집중 보강 및 평일 운전자 대상 타겟 홍보</span>
-                                </li>
-                            </ul>
+                    <!-- Diagnosis Result Screen -->
+                    <div id="sim-result-card" class="glass-panel p-6 rounded-2xl border-2 border-indigo-500/50 bg-slate-900/80 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-400">진단 결과</span>
+                            <span id="sim-level-badge" class="px-3 py-1 bg-rose-500 text-white font-black text-xs rounded-full">최고 위험 (CRITICAL)</span>
                         </div>
-                        <div class="mt-6 pt-3 border-t border-rose-100 text-[11px] font-semibold text-rose-700">
-                            대상 구간: 화요일 전 시간대
-                        </div>
-                    </div>
 
-                    <!-- Proposal 3 -->
-                    <div class="bg-gradient-to-b from-amber-50 to-white p-6 rounded-2xl border border-amber-200 shadow-sm flex flex-col justify-between">
                         <div>
-                            <div class="w-10 h-10 bg-amber-600 text-white rounded-xl flex items-center justify-center font-black text-lg mb-4">
-                                03
-                            </div>
-                            <h4 class="font-bold text-lg text-slate-900 mb-2">주말 및 야간 이동 시간대 안전 경각심 제고</h4>
-                            <p class="text-xs text-slate-600 leading-relaxed">
-                                주말 최다 사고 발생과 <strong class="text-amber-700">토요일 야간 치사 사고</strong> 방지를 위한 맞춤형 대책을 시행합니다.
-                            </p>
-                            <ul class="mt-4 space-y-2 text-xs text-slate-700">
-                                <li class="flex items-start gap-1.5">
-                                    <i class="fa-solid fa-check text-amber-600 mt-0.5"></i>
-                                    <span>주말 여가 지역 및 야간 시간대 운전자 대상 안전 운전 캠페인 강화</span>
-                                </li>
-                                <li class="flex items-start gap-1.5">
-                                    <i class="fa-solid fa-check text-amber-600 mt-0.5"></i>
-                                    <span>주말 주요 유원지·공원 인근 속도 위반 및 신호 위반 스마트 기술 단속 장비 확충</span>
-                                </li>
-                            </ul>
+                            <div class="text-slate-400 text-xs">선택 조건: <span id="sim-selected-text" class="text-white font-bold">금요일 16시~18시</span></div>
+                            <div class="text-2xl font-black text-white mt-1" id="sim-score-text">사고 발생 주의 지수: <span class="text-rose-400">332건 수준 (최고 위험)</span></div>
                         </div>
-                        <div class="mt-6 pt-3 border-t border-amber-100 text-[11px] font-semibold text-amber-800">
-                            대상 구간: 주말 전시간 및 토요일 심야
+
+                        <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700 text-xs text-slate-300 space-y-1" id="sim-desc">
+                            금요일 16~18시는 통학 학생들의 주말 직전 하교와 차량 통행량 폭증이 겹쳐 연중 가장 많은 사고가 발생하는 최고 고위험 시간대입니다.
+                        </div>
+
+                        <div class="pt-2 border-t border-slate-800">
+                            <span class="text-[11px] text-indigo-400 font-bold block mb-1">운전자 및 안전요원 권고사항</span>
+                            <p class="text-xs text-slate-400" id="sim-action">
+                                어린이 보호구역 내 30km/h 서행 준수, 보행안전도우미 추가 배치 및 학원가 유동 순찰을 강력히 권장합니다.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Interactive Tool Section: Real-time Day/Time Safety Diagnostic -->
-        <section id="risk-calculator" class="bg-slate-900 text-white p-6 sm:p-8 rounded-2xl shadow-xl">
-            <div class="max-w-3xl mx-auto space-y-6">
-                <div class="text-center space-y-2">
-                    <span class="px-3 py-1 bg-brand-500/20 text-brand-300 border border-brand-500/30 text-xs font-bold rounded-full inline-block">
-                        <i class="fa-solid fa-sliders mr-1"></i> 대화형 진단 툴
-                    </span>
-                    <h3 class="text-2xl font-black text-white">요일·시간대별 실시간 위험도 모니터링</h3>
-                    <p class="text-xs text-slate-400">조회하고 싶은 요일과 시간대를 선택하면 2025년 데이터 기반 위험 수치와 주의 지침을 확인할 수 있습니다.</p>
-                </div>
-
-                <!-- Select Inputs -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-800/80 p-4 rounded-xl border border-slate-700">
-                    <div>
-                        <label for="select-day" class="block text-xs font-bold text-slate-300 mb-1.5">요일 선택</label>
-                        <select id="select-day" onchange="updateDiagnostic()" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
-                            <option value="일">일요일</option>
-                            <option value="월">월요일</option>
-                            <option value="화" selected>화요일 (고치사율 경보)</option>
-                            <option value="수">수요일</option>
-                            <option value="목">목요일 (최저 발생)</option>
-                            <option value="금">금요일 (최고 위험 접점)</option>
-                            <option value="토">토요일 (최다 사고 발생)</option>
-                        </select>
+        <!-- 5. Policy Proposals Tab -->
+        <div id="policy-tab" class="tab-content hidden space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Proposal 1 -->
+                <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-indigo-500 space-y-4">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-lg">
+                        01
                     </div>
-
-                    <div>
-                        <label for="select-time" class="block text-xs font-bold text-slate-300 mb-1.5">시간대 선택</label>
-                        <select id="select-time" onchange="updateDiagnostic()" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
-                            <option value="08-10">08시 ~ 10시 (등교 시간대)</option>
-                            <option value="10-14">10시 ~ 14시 (오전/점심 시간대)</option>
-                            <option value="14-16">14시 ~ 16시 (초등 하교 시작)</option>
-                            <option value="16-18" selected>16시 ~ 18시 (하교/학원 이동 피크 - TOP 1)</option>
-                            <option value="18-20">18시 ~ 20시 (저녁 귀가 및 학원 - TOP 3)</option>
-                            <option value="20-24">20시 ~ 24시 (야간 시간대)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Diagnostic Output Result Box -->
-                <div id="diagnostic-result" class="bg-slate-800 p-5 rounded-xl border-l-4 border-rose-500 transition-all space-y-3">
-                    <div class="flex items-center justify-between">
-                        <span id="diag-badge" class="px-2.5 py-1 text-xs font-black bg-rose-600 text-white rounded">
-                            위험 등급: 매우 위험 (Extreme)
-                        </span>
-                        <span id="diag-stat" class="text-xs text-slate-400 font-mono">
-                            예상 통계 밀도: 매우 높음
-                        </span>
-                    </div>
-
-                    <h4 id="diag-title" class="text-lg font-bold text-white">화요일 16시 ~ 18시 위험 특성</h4>
-
-                    <p id="diag-desc" class="text-xs text-slate-300 leading-relaxed">
-                        화요일은 전 수치 중 치사율(0.44%)이 최고인 날이며, 16~18시는 전체 시간대 중 사고 발생 1위(2,038건) 지점입니다. 평일 중 운전자 주의력이 저하되기 쉬운 하교 시간대이므로 최고 수준의 주의가 요구됩니다.
+                    <h3 class="text-base font-bold text-white">하교 및 학원 이동기 보행 안전 관리체계 최적화</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        전체 사고의 <strong>59%</strong>가 집중되는 <strong>14시~20시</strong>를 '집중 관리 구간'으로 설정하고 인력 배치를 집중해야 합니다.
                     </p>
-
-                    <div class="pt-2 border-t border-slate-700 flex items-center justify-between text-xs text-amber-400 font-medium">
-                        <span id="diag-action"><i class="fa-solid fa-triangle-exclamation mr-1"></i> 권장 조치: 스쿨존 및 학원가 30km 이하 준수, 보행안전도우미 추가 배치</span>
-                    </div>
+                    <ul class="text-xs text-slate-400 space-y-2 border-t border-slate-800 pt-3">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-indigo-400"></i> Walking School Bus 확대</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-indigo-400"></i> 시니어 안전인력 14-20시 재배치</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-indigo-400"></i> 학원 밀집 지역 거점 순찰 강화</li>
+                    </ul>
                 </div>
+
+                <!-- Proposal 2 -->
+                <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-rose-500 space-y-4">
+                    <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-lg">
+                        02
+                    </div>
+                    <h3 class="text-base font-bold text-white">중대 사고 예방을 위한 요일별 정밀 진단</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        치사율이 비정상적으로 높은 <strong>화요일(0.44%)</strong>의 원인 분석 및 '중대사고 예방 프로토콜' 가동이 시급합니다.
+                    </p>
+                    <ul class="text-xs text-slate-400 space-y-2 border-t border-slate-800 pt-3">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-rose-400"></i> 화요일 사고 지역 전수 조사</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-rose-400"></i> 무인 단속 카메라 & 과속방지턱 확충</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-rose-400"></i> 평일 운전자 대상 타겟 홍보</li>
+                    </ul>
+                </div>
+
+                <!-- Proposal 3 -->
+                <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-amber-500 space-y-4">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg">
+                        03
+                    </div>
+                    <h3 class="text-base font-bold text-white">주말 및 야간 이동 시간대 안전 경각심 제고</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        토요일 다발 사고 및 야간 치명 사고 단속 강화를 위해 여가 지역 인근 단속 장비를 단행해야 합니다.
+                    </p>
+                    <ul class="text-xs text-slate-400 space-y-2 border-t border-slate-800 pt-3">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> 주말 심야 이동 차량 단속 확충</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> 공원·휴양지 인근 속도 위반 단속</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> 야간 어린이 동반 운전자 캠페인</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Statistical Data Table -->
+        <section class="glass-panel p-6 rounded-2xl space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-table text-indigo-400"></i> 2025년 요일별 어린이 교통사고 종합 통계표
+                    </h3>
+                    <p class="text-xs text-slate-400">사고 건수, 사망자 수, 부상자 수 및 치사율 통계 데이터</p>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left text-xs text-slate-300">
+                    <thead class="bg-slate-900/90 text-slate-400 uppercase font-semibold border-b border-slate-800">
+                        <tr>
+                            <th class="p-3">요일</th>
+                            <th class="p-3 text-right">사고 건수 (건)</th>
+                            <th class="p-3 text-right">사망자 수 (명)</th>
+                            <th class="p-3 text-right">부상자 수 (명)</th>
+                            <th class="p-3 text-right">치사율 (%)</th>
+                            <th class="p-3 text-center">위험도 평가</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800/60 font-medium">
+                        <tr class="hover:bg-slate-800/40">
+                            <td class="p-3 font-bold text-white">일요일</td>
+                            <td class="p-3 text-right">1,367</td>
+                            <td class="p-3 text-right text-slate-300">1</td>
+                            <td class="p-3 text-right">1,808</td>
+                            <td class="p-3 text-right">0.07%</td>
+                            <td class="p-3 text-center"><span class="px-2 py-0.5 bg-slate-800 text-slate-400 rounded">보통</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40">
+                            <td class="p-3 font-bold text-white">월요일</td>
+                            <td class="p-3 text-right">1,176</td>
+                            <td class="p-3 text-right text-slate-300">2</td>
+                            <td class="p-3 text-right">1,405</td>
+                            <td class="p-3 text-right">0.17%</td>
+                            <td class="p-3 text-center"><span class="px-2 py-0.5 bg-indigo-500/20 text-indigo-300 rounded">주의</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 bg-rose-950/20">
+                            <td class="p-3 font-bold text-rose-300">화요일</td>
+                            <td class="p-3 text-right text-rose-300">1,127</td>
+                            <td class="p-3 text-right font-black text-rose-400">5</td>
+                            <td class="p-3 text-right text-rose-300">1,376</td>
+                            <td class="p-3 text-right font-black text-rose-400">0.44%</td>
+                            <td class="p-3 text-center"><span class="px-2 py-0.5 bg-rose-500 text-white font-bold rounded">최고 경보</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40">
+                            <td class="p-3 font-bold text-white">수요일</td>
+                            <td class="p-3 text-right">1,235</td>
+                            <td class="p-3 text-right text-emerald-400">0</td>
+                            <td class="p-3 text-right">1,447</td>
+                            <td class="p-3 text-right text-emerald-400">0.00%</td>
+                            <td class="p-3 text-center"><span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded">양호</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40">
+                            <td class="p-3 font-bold text-white">목요일</td>
+                            <td class="p-3 text-right">1,085</td>
+                            <td class="p-3 text-right text-emerald-400">0</td>
+                            <td class="p-3 text-right">1,275</td>
+                            <td class="p-3 text-right text-emerald-400">0.00%</td>
+                            <td class="p-3 text-center"><span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded">최저 건수</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40">
+                            <td class="p-3 font-bold text-white">금요일</td>
+                            <td class="p-3 text-right">1,272</td>
+                            <td class="p-3 text-right text-slate-300">2</td>
+                            <td class="p-3 text-right">1,546</td>
+                            <td class="p-3 text-right">0.16%</td>
+                            <td class="p-3 text-center"><span class="px-2 py-0.5 bg-amber-500/20 text-amber-300 rounded">하교 집중</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 bg-indigo-950/20">
+                            <td class="p-3 font-bold text-indigo-300">토요일</td>
+                            <td class="p-3 text-right font-black text-indigo-300">1,518</td>
+                            <td class="p-3 text-right text-amber-400">3</td>
+                            <td class="p-3 text-right font-black text-indigo-300">1,944</td>
+                            <td class="p-3 text-right">0.20%</td>
+                            <td class="p-3 text-center"><span class="px-2 py-0.5 bg-indigo-500 text-white font-bold rounded">최다 발생</span></td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="bg-slate-900 font-bold border-t-2 border-slate-700 text-white">
+                        <tr>
+                            <td class="p-3">전체 합계 / 평균</td>
+                            <td class="p-3 text-right">8,780</td>
+                            <td class="p-3 text-right text-rose-400">13</td>
+                            <td class="p-3 text-right">10,801</td>
+                            <td class="p-3 text-right">0.15%</td>
+                            <td class="p-3 text-center">-</td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-950 text-slate-500 text-xs py-8 border-t border-slate-800 mt-12 no-print">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <footer class="border-t border-slate-800 glass-panel mt-12 py-6 px-4 lg:px-8 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
             <div>
-                <p class="font-bold text-slate-400">2025년 어린이 교통사고 실태 및 요일·시간대별 위험도 심층 분석 보고서</p>
-                <p class="mt-1">본 웹 보고서는 2025년 어린이(12세 이하) 교통사고 통계 데이터를 기반으로 제작되었습니다.</p>
+                © 2025 어린이 교통안전 심층 분석 보고서 | 데이터 기반 교통안전 정책 제언
             </div>
-            <div class="text-right">
-                <span class="inline-block bg-slate-900 border border-slate-800 px-3 py-1 rounded text-slate-400">
-                    Evidence-Based Safety Analytics
-                </span>
+            <div class="flex items-center space-x-4">
+                <span>자료 출처: 2025년 어린이 교통사고 통계 DB</span>
             </div>
         </div>
     </footer>
 
+    <!-- JavaScript Logic & Chart Initialization -->
     <script>
-        // Tab switching logic
+        // Tab Switcher
         function switchTab(tabId) {
-            // Hide all contents
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.add('hidden');
-            });
-            
-            // Deactivate all tab buttons
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-                btn.classList.add('bg-slate-200', 'text-slate-700');
+                btn.classList.remove('text-indigo-400', 'border-indigo-500');
+                btn.classList.add('text-slate-400', 'border-transparent');
             });
 
-            // Show selected content
             document.getElementById(tabId).classList.remove('hidden');
-
-            // Activate button
             const activeBtn = document.getElementById('btn-' + tabId);
-            activeBtn.classList.add('active');
-            activeBtn.classList.remove('bg-slate-200', 'text-slate-700');
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-400', 'border-transparent');
+                activeBtn.classList.add('text-indigo-400', 'border-indigo-500');
+            }
         }
 
-        // Initialize Day Chart
-        window.onload = function() {
-            initDayChart();
-            initTimeChart();
-            updateDiagnostic();
-        };
+        // Initialize Charts on DOM Content Loaded
+        window.addEventListener('DOMContentLoaded', () => {
+            initDayOfWeekChart();
+            initTimeSlotChart();
+        });
 
-        function initDayChart() {
-            const ctx = document.getElementById('dayChart').getContext('2d');
+        // Day of Week Chart (Bar + Line Overlay)
+        function initDayOfWeekChart() {
+            const ctx = document.getElementById('dayOfWeekChart').getContext('2d');
             new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
                     datasets: [
                         {
-                            label: '사고 건수(건)',
+                            label: '사고 건수 (건)',
                             data: [1367, 1176, 1127, 1235, 1085, 1272, 1518],
                             backgroundColor: [
-                                'rgba(148, 163, 184, 0.6)',
-                                'rgba(148, 163, 184, 0.6)',
-                                'rgba(239, 68, 68, 0.85)', // Highlight Tuesday
-                                'rgba(148, 163, 184, 0.6)',
-                                'rgba(16, 185, 129, 0.6)', // Thu lowest
-                                'rgba(148, 163, 184, 0.6)',
-                                'rgba(245, 158, 11, 0.85)'  // Highlight Sat
+                                'rgba(99, 102, 241, 0.5)',
+                                'rgba(99, 102, 241, 0.5)',
+                                'rgba(244, 63, 94, 0.8)', // Tuesday Highlight
+                                'rgba(99, 102, 241, 0.5)',
+                                'rgba(16, 185, 129, 0.5)',
+                                'rgba(99, 102, 241, 0.5)',
+                                'rgba(99, 102, 241, 0.9)'  // Saturday Highlight
                             ],
                             borderColor: [
-                                '#64748b', '#64748b', '#dc2626', '#64748b', '#059669', '#64748b', '#d97706'
+                                '#6366f1', '#6366f1', '#f43f5e', '#6366f1', '#10b981', '#6366f1', '#4f46e5'
                             ],
-                            borderWidth: 1.5,
+                            borderWidth: 1,
+                            borderRadius: 6,
                             yAxisID: 'y'
                         },
                         {
-                            label: '치사율(%)',
+                            label: '치사율 (%)',
                             data: [0.07, 0.17, 0.44, 0.00, 0.00, 0.16, 0.20],
                             type: 'line',
-                            borderColor: '#ef4444',
+                            borderColor: '#fbbf24',
+                            backgroundColor: '#fbbf24',
                             borderWidth: 3,
-                            pointBackgroundColor: '#ef4444',
-                            pointRadius: 6,
-                            tension: 0.3,
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
                             yAxisID: 'y1'
                         }
                     ]
@@ -792,44 +697,56 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#94a3b8', font: { family: 'Pretendard', size: 11 } }
+                        }
                     },
                     scales: {
+                        x: {
+                            ticks: { color: '#94a3b8', font: { family: 'Pretendard' } },
+                            grid: { color: 'rgba(255,255,255,0.05)' }
+                        },
                         y: {
                             type: 'linear',
                             display: true,
                             position: 'left',
-                            title: { display: true, text: '사고 건수 (건)', font: { size: 11, weight: 'bold' } },
-                            min: 800,
-                            max: 1700
+                            title: { display: true, text: '사고 건수', color: '#94a3b8' },
+                            ticks: { color: '#94a3b8' },
+                            grid: { color: 'rgba(255,255,255,0.05)' }
                         },
                         y1: {
                             type: 'linear',
                             display: true,
                             position: 'right',
-                            title: { display: true, text: '치사율 (%)', font: { size: 11, weight: 'bold' } },
-                            grid: { drawOnChartArea: false },
-                            min: 0,
-                            max: 0.5
+                            title: { display: true, text: '치사율 (%)', color: '#fbbf24' },
+                            ticks: { color: '#fbbf24' },
+                            grid: { drawOnChartArea: false }
                         }
                     }
                 }
             });
         }
 
-        function initTimeChart() {
-            const ctx = document.getElementById('timeChart').getContext('2d');
+        // Time Slot Chart
+        function initTimeSlotChart() {
+            const ctx = document.getElementById('timeSlotChart').getContext('2d');
             new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['00-08시', '08-10시 (등교)', '10-12시', '12-14시', '14-16시 (Top 2)', '16-18시 (Top 1)', '18-20시 (Top 3)', '20-22시', '22-24시'],
+                    labels: ['08-10시', '10-12시', '12-14시', '14-16시', '16-18시', '18-20시', '20-22시', '22-24시'],
                     datasets: [{
-                        label: '시간대별 사고 건수',
-                        data: [280, 921, 650, 890, 1699, 2038, 1440, 610, 252],
+                        label: '사고 건수 (건)',
+                        data: [921, 650, 810, 1699, 2038, 1440, 720, 502],
                         backgroundColor: [
-                            '#e2e8f0', '#cbd5e1', '#e2e8f0', '#e2e8f0', '#f59e0b', '#ef4444', '#2563eb', '#cbd5e1', '#e2e8f0'
+                            'rgba(148, 163, 184, 0.4)',
+                            'rgba(148, 163, 184, 0.3)',
+                            'rgba(148, 163, 184, 0.4)',
+                            'rgba(245, 158, 11, 0.8)', // 14-16 Top 2
+                            'rgba(244, 63, 94, 0.9)',  // 16-18 Top 1 Peak
+                            'rgba(99, 102, 241, 0.8)',  // 18-20 Top 3
+                            'rgba(148, 163, 184, 0.4)',
+                            'rgba(148, 163, 184, 0.3)'
                         ],
                         borderRadius: 6
                     }]
@@ -841,87 +758,63 @@
                         legend: { display: false }
                     },
                     scales: {
+                        x: {
+                            ticks: { color: '#94a3b8', font: { family: 'Pretendard' } },
+                            grid: { color: 'rgba(255,255,255,0.05)' }
+                        },
                         y: {
-                            beginAtZero: true,
-                            title: { display: true, text: '사고 건수 (건)' }
+                            ticks: { color: '#94a3b8' },
+                            grid: { color: 'rgba(255,255,255,0.05)' }
                         }
                     }
                 }
             });
         }
 
-        // Diagnostic Simulator Logic
-        function updateDiagnostic() {
-            const day = document.getElementById('select-day').value;
-            const time = document.getElementById('select-time').value;
+        // Interactive Risk Diagnosis Engine
+        function runRiskDiagnosis() {
+            const day = document.getElementById('sim-day').value;
+            const time = document.getElementById('sim-time').value;
 
-            const box = document.getElementById('diagnostic-result');
-            const badge = document.getElementById('diag-badge');
-            const stat = document.getElementById('diag-stat');
-            const title = document.getElementById('diag-title');
-            const desc = document.getElementById('diag-desc');
-            const action = document.getElementById('diag-action');
+            const badge = document.getElementById('sim-level-badge');
+            const selText = document.getElementById('sim-selected-text');
+            const scoreText = document.getElementById('sim-score-text');
+            const desc = document.getElementById('sim-desc');
+            const action = document.getElementById('sim-action');
 
-            let titleText = `${day}요일 ${time}시 구간 위험 진단`;
-            let badgeText = "위험 등급: 보통 (Moderate)";
-            let badgeClass = "px-2.5 py-1 text-xs font-black bg-blue-600 text-white rounded";
-            let borderClass = "border-l-4 border-blue-500";
-            let descText = "해당 구간은 상대적으로 표준적인 사고 밀도를 나타냅니다. 통상적인 스쿨존 서행 및 방어운전을 준수하세요.";
-            let actionText = "<i class=\"fa-solid fa-shield-halved mr-1\"></i> 권장 조치: 기본 교통법규 준수 및 보행자 보호 의무 이행";
-            let statText = "예상 위험도: 표준";
+            selText.textContent = `${day} ${time}시 구간`;
 
-            if (day === '금' && time === '16-18') {
-                badgeText = "위험 등급: 최고 위험 접점 (Highest Risk Nexus)";
-                badgeClass = "px-2.5 py-1 text-xs font-black bg-rose-600 text-white rounded animate-pulse";
-                borderClass = "border-l-4 border-rose-600";
-                descText = "금요일 16~18시는 전체 요일/시간대를 통틀어 연간 332건으로 사고가 가장 많이 발생하는 최정점 위험 구간입니다! 주말 이동 차량 급증과 하교 활동이 상충합니다.";
-                actionText = "<i class=\"fa-solid fa-triangle-exclamation mr-1\"></i> 권장 조치: 해당 시간대 스쿨존 단속 및 순찰 인력 최우선 집중 배치";
-                statText = "사고 밀도: 최고 레벨 (332건)";
-            } else if (day === '화') {
-                badgeText = "위험 등급: 중대 치사 위험 (High Fatality Risk)";
-                badgeClass = "px-2.5 py-1 text-xs font-black bg-rose-600 text-white rounded";
-                borderClass = "border-l-4 border-rose-500";
-                descText = "화요일은 2025년 사망자 5명이 발생하여 평균 치사율의 3배에 달하는 0.44%를 기록한 고위험 요일입니다. 전 시간대 운전자 경각심 유지가 필요합니다.";
-                actionText = "<i class=\"fa-solid fa-truck-medical mr-1\"></i> 권장 조치: 화요일 전용 특별 단속 및 과속방지턱 시설 점검";
-                statText = "치사율: 0.44% (평균 0.15%의 2.93배)";
-            } else if (day === '토' && time === '14-16') {
-                badgeText = "위험 등급: 주말 야외활동 피크 (Weekend Peak)";
-                badgeClass = "px-2.5 py-1 text-xs font-black bg-amber-500 text-white rounded";
-                borderClass = "border-l-4 border-amber-500";
-                descText = "토요일 14~16시는 주말 야외활동 피크로 284건의 사고가 집중 발생합니다. 주택가, 공원, 유원지 인근 통행 시 극도의 주의가 요구됩니다.";
-                actionText = "<i class=\"fa-solid fa-tree mr-1\"></i> 권장 조치: 공원 및 유원지 인근 속도위반 기술 단속 강화";
-                statText = "주말 최대 사고 구간 (284건)";
-            } else if (day === '토' && time === '20-24') {
-                badgeText = "위험 등급: 야간 중대사고 경보 (Night Warning)";
-                badgeClass = "px-2.5 py-1 text-xs font-black bg-indigo-900 text-white rounded";
-                borderClass = "border-l-4 border-indigo-600";
-                descText = "토요일 야간(20~24시)은 건수는 적으나 2명의 사망자가 발생한 고위험 야간 구간입니다. 시야 확보가 어렵고 과속 가능성이 높아 각별한 주의가 요구됩니다.";
-                actionText = "<i class=\"fa-solid fa-moon mr-1\"></i> 권장 조치: 야간 음주 및 신호위반 집중 단속 실시";
-                statText = "야간 사망자 2명 발생";
-            } else if (time === '16-18') {
-                badgeText = "위험 등급: 하교 피크 위험 (Top 1 Risk Hour)";
-                badgeClass = "px-2.5 py-1 text-xs font-black bg-amber-600 text-white rounded";
-                borderClass = "border-l-4 border-amber-500";
-                descText = "16~18시는 요일과 관계없이 연간 2,038건이 집중되는 최정점 위험 시간대입니다. 등교 시간 대비 2.21배의 사고 빈도를 나타냅니다.";
-                actionText = "<i class=\"fa-solid fa-person-walking mr-1\"></i> 권장 조치: 보행안전도우미 하교 전담 배치";
-                statText = "연간 2,038건 집중";
+            if (day === '금요일' && time === '16-18') {
+                badge.className = 'px-3 py-1 bg-rose-500 text-white font-black text-xs rounded-full';
+                badge.textContent = '최고 위험 (CRITICAL)';
+                scoreText.innerHTML = '사고 위험 지수: <span class="text-rose-400">332건 (연중 최고 피크)</span>';
+                desc.textContent = '주말 직전 하교 활동 및 주말 이동 차량 교차가 집중되는 전국 최고 위험 구간입니다.';
+                action.textContent = '학교 주변 및 학원가 보행안전도우미 집중 배치 및 불법 주정차 강력 단속 필요.';
+            } else if (day === '화요일') {
+                badge.className = 'px-3 py-1 bg-rose-600 text-white font-black text-xs rounded-full';
+                badge.textContent = '중대 사고 경보 (HIGH FATALITY)';
+                scoreText.innerHTML = '사고 위험 지수: <span class="text-rose-400">치사율 0.44% (평균의 3배)</span>';
+                desc.textContent = '화요일은 사고 건 대비 사망자 비중(5명)이 가장 높아 주중 중대 사고 심각도가 가장 높습니다.';
+                action.textContent = '운전자 과속 방지 시설 점검 및 스쿨존 신호 준수 계도 활동 집중 실시.';
+            } else if (day === '토요일' && (time === '20-22' || time === '22-24')) {
+                badge.className = 'px-3 py-1 bg-purple-600 text-white font-black text-xs rounded-full';
+                badge.textContent = '야간 치사 위험 (NIGHT ALERT)';
+                scoreText.innerHTML = '사고 위험 지수: <span class="text-purple-300">야간 사망자 2명 집중</span>';
+                desc.textContent = '토요일 야간 시각은 보행 통행량 대비 시야 확보 미비 및 과속으로 인한 치명적 사고가 다발합니다.';
+                action.textContent = '야간 신호위반 및 과속 단속 장비 가동, 어린이 동반 차량 야간 서행 유도.';
+            } else if (time === '14-16' || time === '16-18' || time === '18-20') {
+                badge.className = 'px-3 py-1 bg-amber-500 text-slate-950 font-black text-xs rounded-full';
+                badge.textContent = '하교기 주의 (WARNING)';
+                scoreText.innerHTML = '사고 위험 지수: <span class="text-amber-400">하교·학원 이동 집중 (59% 비중)</span>';
+                desc.textContent = '하교 후 학원 및 귀가 이동 인원이 집중되어 학생 보행권 주의가 강하게 요구되는 구간입니다.';
+                action.textContent = '학원 차량 승하차 안전 구역 지정 및 교차로 신호 연장 가동 권장.';
+            } else {
+                badge.className = 'px-3 py-1 bg-emerald-500 text-slate-950 font-black text-xs rounded-full';
+                badge.textContent = '일반 관리 (NORMAL)';
+                scoreText.innerHTML = '사고 위험 지수: <span class="text-emerald-400">일반 수준</span>';
+                desc.textContent = '상대적으로 사고 발생 비중이 낮은 구간이나 기본 교통법규 준수가 필수적입니다.';
+                action.textContent = '어린이 보호구역 내 규정 속도 30km/h 및 일시정지 의무 준수.';
             }
-
-            title.innerText = titleText;
-            badge.innerText = badgeText;
-            badge.className = badgeClass;
-            desc.innerText = descText;
-            action.innerHTML = actionText;
-            stat.innerText = statText;
-            box.className = `bg-slate-800 p-5 rounded-xl transition-all space-y-3 ${borderClass}`;
-        }
-
-        function openMinisterModal() {
-            document.getElementById('ministerModal').classList.remove('hidden');
-        }
-
-        function closeMinisterModal() {
-            document.getElementById('ministerModal').classList.add('hidden');
         }
     </script>
 </body>
