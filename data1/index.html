@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024-2026 서울대학교 입학 및 기회균형 선발 종합 분석 보고서</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts Inter & Noto Sans KR -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        snu: {
+                            blue: '#0F0D59',
+                            gold: '#C5A059',
+                            light: '#1E1B80',
+                            accent: '#2563EB',
+                            bg: '#F8FAFC'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .gradient-snu {
+            background: linear-gradient(135deg, #0F0D59 0%, #1E1B80 60%, #1E3A8A 100%);
+        }
+        .tab-btn.active {
+            color: #0F0D59;
+            border-bottom-color: #0F0D59;
+            font-weight: 700;
+            background-color: #EFF6FF;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border: 1px solid #E2E8F0;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Top Header Banner -->
+    <header class="gradient-snu text-white shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-blue-500/20 backdrop-blur-md border border-blue-400/30 text-blue-200 text-xs font-semibold px-3 py-1 rounded-full mb-3">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        입학 정책 & 사회적 책무 평가 보고서
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
+                        2024-2026 서울대학교 입학 및 기회균형 선발<br class="hidden sm:inline"/> 종합 분석 웹보고서
+                    </h1>
+                    <p class="mt-2 text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
+                        최근 3개년 입학 통계와 정원 내/외 기회균형 선발 데이터, 2026학년도 등록 현황 및 대학 교육 여건 지표를 입체적으로 시각화한 심층 분석 대시보드입니다.
+                    </p>
+                </div>
+                <div class="flex flex-row md:flex-col items-start md:items-end justify-between border-t md:border-t-0 border-white/10 pt-4 md:pt-0 gap-2 text-xs text-slate-300">
+                    <div>발행기관: 입학분석 정책연구그룹</div>
+                    <div>기준연도: 2024년 ~ 2026년</div>
+                    <button onclick="window.print()" class="mt-2 inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium px-3 py-1.5 rounded-lg transition-all text-xs">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                        보고서 인쇄 / PDF 저장
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- KPI Highlights Bar -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 z-10 w-full">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Metric 1 -->
+            <div class="glass-card rounded-xl p-4 sm:p-5 shadow-md border-l-4 border-l-snu-blue hover:shadow-lg transition-all">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 block">2026 총 입학자 수</span>
+                <div class="flex items-baseline justify-between mt-2">
+                    <span class="text-2xl sm:text-3xl font-black text-slate-900">3,811명</span>
+                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">+36명 (↑)</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">2024년(3,746명) 대비 지속 증가</p>
+            </div>
+
+            <!-- Metric 2 -->
+            <div class="glass-card rounded-xl p-4 sm:p-5 shadow-md border-l-4 border-l-blue-600 hover:shadow-lg transition-all">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 block">기회균형 선발 비율</span>
+                <div class="flex items-baseline justify-between mt-2">
+                    <span class="text-2xl sm:text-3xl font-black text-snu-light">9.3%</span>
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">353명 선발</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">사회적 계층 사다리 역할 견고</p>
+            </div>
+
+            <!-- Metric 3 -->
+            <div class="glass-card rounded-xl p-4 sm:p-5 shadow-md border-l-4 border-l-amber-500 hover:shadow-lg transition-all">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 block">1인당 교육비</span>
+                <div class="flex items-baseline justify-between mt-2">
+                    <span class="text-xl sm:text-2xl font-black text-slate-900">6,302만원</span>
+                    <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">국내 최고</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">1인당 장학금: 약 350만 원</p>
+            </div>
+
+            <!-- Metric 4 -->
+            <div class="glass-card rounded-xl p-4 sm:p-5 shadow-md border-l-4 border-l-indigo-600 hover:shadow-lg transition-all">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 block">전임교원 확보율</span>
+                <div class="flex items-baseline justify-between mt-2">
+                    <span class="text-2xl sm:text-3xl font-black text-indigo-900">123.1%</span>
+                    <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">+23.1%p 초과</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">재학생 기준 법정 기준 대폭 상회</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+            <div class="flex flex-wrap border-b border-slate-200 bg-slate-50/50 p-1 gap-1">
+                <button onclick="switchTab('tab1')" id="btn-tab1" class="tab-btn active flex-1 min-w-[140px] py-3 px-4 text-xs sm:text-sm font-medium rounded-xl text-slate-600 hover:text-slate-900 transition-all text-center flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    1. 입학 및 기회균형 선발
+                </button>
+                <button onclick="switchTab('tab2')" id="btn-tab2" class="tab-btn flex-1 min-w-[140px] py-3 px-4 text-xs sm:text-sm font-medium rounded-xl text-slate-600 hover:text-slate-900 transition-all text-center flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 30a1 1 0 000 2h2a1 1 0 000-2h-2zM9 5a2 2 0 012-2h2a2 2 0 012 2v12a2 2 0 01-2 2h-2a2 2 0 01-2-2V5z"/></svg>
+                    2. 2026 전형별 등록 현황
+                </button>
+                <button onclick="switchTab('tab3')" id="btn-tab3" class="tab-btn flex-1 min-w-[140px] py-3 px-4 text-xs sm:text-sm font-medium rounded-xl text-slate-600 hover:text-slate-900 transition-all text-center flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    3. 대학 경쟁력 & 교육 여건
+                </button>
+                <button onclick="switchTab('tab4')" id="btn-tab4" class="tab-btn flex-1 min-w-[140px] py-3 px-4 text-xs sm:text-sm font-medium rounded-xl text-slate-600 hover:text-slate-900 transition-all text-center flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 01-2 2h-disabled2a2 2 0 01-2-2v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    4. 종합 시사점 & 정책 제언
+                </button>
+            </div>
+
+            <div class="p-6">
+                <!-- TAB 1: 총괄 및 기회균형 선발 -->
+                <div id="tab1" class="tab-content block space-y-8">
+                    <div class="border-b border-slate-200 pb-4">
+                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <span class="bg-snu-blue text-white w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold">1</span>
+                            연도별 입학 총괄 및 기회균형 선발 추이 (2024 - 2026)
+                        </h2>
+                        <p class="text-sm text-slate-600 mt-1">
+                            서울대학교의 입학 정원은 학내 교육 환경 수용력에 맞추어 안정적인 소폭 증가세를 이어가고 있으며, 국립대학으로서 사회적 다양성을 확보하기 위한 기회균형선발 제도를 견고하게 유지하고 있습니다.
+                        </p>
+                    </div>
+
+                    <!-- Charts Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Chart 1: 입학자 수 추이 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-snu-blue"></span>
+                                    총 입학자 수(A) 연도별 변화
+                                </h3>
+                                <span class="text-xs bg-slate-200 px-2 py-1 rounded text-slate-600">명 기준</span>
+                            </div>
+                            <div class="h-64 relative">
+                                <canvas id="chartAdmissions"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Chart 2: 기회균형 비율 및 인원 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                                    기회균형 선발 인원(B) 및 비율(B/A)
+                                </h3>
+                                <span class="text-xs bg-slate-200 px-2 py-1 rounded text-slate-600">% / 명</span>
+                            </div>
+                            <div class="h-64 relative">
+                                <canvas id="chartEqualOp"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 기회균형 세부 항목 분석 표 -->
+                    <div class="space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <h3 class="font-bold text-slate-900 text-base">연도별 · 세부 항목별 기회균형 선발 현황 (정원 내 / 정원 외)</h3>
+                            <span class="text-xs text-slate-500">* 표시: 기초생활수급자, 차상위계층, 한부모가족 지원대상자 포함</span>
+                        </div>
+
+                        <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                            <table class="w-full text-sm text-left text-slate-700">
+                                <thead class="text-xs text-white uppercase bg-snu-blue">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3">세부 항목</th>
+                                        <th scope="col" class="px-4 py-3 text-center">2024년 (내 / 외 / 계)</th>
+                                        <th scope="col" class="px-4 py-3 text-center">2025년 (내 / 외 / 계)</th>
+                                        <th scope="col" class="px-4 py-3 text-center bg-blue-900">2026년 (내 / 외 / 계)</th>
+                                        <th scope="col" class="px-4 py-3 text-center">3개년 변화 특징</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 bg-white">
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 font-semibold text-slate-900">농어촌 학생</td>
+                                        <td class="px-4 py-3 text-center">123 / 83 / 206명</td>
+                                        <td class="px-4 py-3 text-center">120 / 86 / 206명</td>
+                                        <td class="px-4 py-3 text-center font-bold text-blue-700 bg-blue-50/50">130 / 84 / 214명</td>
+                                        <td class="px-4 py-3 text-xs text-slate-600">2026년 정원 내 130명으로 확대</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 font-semibold text-slate-900">저소득층 합계 *</td>
+                                        <td class="px-4 py-3 text-center">40 / 84 / 124명</td>
+                                        <td class="px-4 py-3 text-center">40 / 85 / 125명</td>
+                                        <td class="px-4 py-3 text-center font-bold text-blue-700 bg-blue-50/50">35 / 90 / 125명</td>
+                                        <td class="px-4 py-3 text-xs text-slate-600">정원 외 비중 증대로 125명 안정 유지</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 font-semibold text-slate-900">장애인 등 대상자</td>
+                                        <td class="px-4 py-3 text-center">0 / 4 / 4명</td>
+                                        <td class="px-4 py-3 text-center">0 / 8 / 8명</td>
+                                        <td class="px-4 py-3 text-center font-bold text-blue-700 bg-blue-50/50">0 / 5 / 5명</td>
+                                        <td class="px-4 py-3 text-xs text-slate-600">전원 정원 외 선발 및 높은 등록률</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 font-semibold text-slate-900">특성화고교 졸업자</td>
+                                        <td class="px-4 py-3 text-center">0 / 4 / 4명</td>
+                                        <td class="px-4 py-3 text-center">0 / 4 / 4명</td>
+                                        <td class="px-4 py-3 text-center font-bold text-blue-700 bg-blue-50/50">0 / 4 / 4명</td>
+                                        <td class="px-4 py-3 text-xs text-slate-600">매년 4명 정원 외 정속 유지</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 font-semibold text-slate-900">국가보훈대상자</td>
+                                        <td class="px-4 py-3 text-center">10 / 0 / 10명</td>
+                                        <td class="px-4 py-3 text-center">6 / 0 / 6명</td>
+                                        <td class="px-4 py-3 text-center font-bold text-blue-700 bg-blue-50/50">5 / 0 / 5명</td>
+                                        <td class="px-4 py-3 text-xs text-slate-600">전원 정원 내 선발</td>
+                                    </tr>
+                                    <tr class="bg-slate-100 font-bold text-slate-900">
+                                        <td class="px-4 py-3">총 기회균형 선발(B)</td>
+                                        <td class="px-4 py-3 text-center">348명</td>
+                                        <td class="px-4 py-3 text-center">349명</td>
+                                        <td class="px-4 py-3 text-center text-blue-800 text-base">353명</td>
+                                        <td class="px-4 py-3 text-xs text-slate-700">전년 대비 +4명 선발 확대</td>
+                                    </tr>
+                                    <tr class="bg-blue-50/80 font-extrabold text-blue-900">
+                                        <td class="px-4 py-3">기회균형 선발비율 (B/A)</td>
+                                        <td class="px-4 py-3 text-center">9.3%</td>
+                                        <td class="px-4 py-3 text-center">9.2%</td>
+                                        <td class="px-4 py-3 text-center text-lg">9.3%</td>
+                                        <td class="px-4 py-3 text-xs text-blue-800">9.3% 수준 지속적 동결 유지</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 전문가 분석 Callout -->
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-5">
+                        <div class="flex items-start gap-3">
+                            <div class="p-2 bg-snu-blue text-white rounded-lg mt-0.5">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            </div>
+                            <div class="space-y-2">
+                                <h4 class="font-bold text-slate-900 text-base">기회균형 선발에 대한 전문가적 평가</h4>
+                                <ul class="list-disc list-inside text-sm text-slate-700 space-y-1">
+                                    <li><strong class="text-snu-blue">농어촌 전형의 입지 공고화:</strong> 기회균형 선발 내 가장 큰 비중(60% 이상)을 차지하는 농어촌 전형은 2026년 정원 내 선발을 130명까지 확장하며 농어촌 교육 여건 지원을 한층 강화했습니다.</li>
+                                    <li><strong class="text-snu-blue">정원 외 전형의 유연한 활용:</strong> 장애인 및 특성화고 졸업자 전형은 전원 정원 외로 차출 선발하여, 일반전형 모집규모에 영향을 주지 않으면서도 계층 간 형평성을 우수하게 충족하고 있습니다.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: 전형별 등록 현황 -->
+                <div id="tab2" class="tab-content hidden space-y-8">
+                    <div class="border-b border-slate-200 pb-4">
+                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <span class="bg-snu-blue text-white w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold">2</span>
+                            2026학년도 입학전형 유형별 모집 & 등록 현황 분석
+                        </h2>
+                        <p class="text-sm text-slate-600 mt-1">
+                            수시, 정시, 자율선발(글로벌인재) 전 전형에서 압도적인 높은 등록률을 기록했습니다. 전형 세부 유형에 따라 최저학력기준 유무와 중복합격 이탈 차이가 나타납니다.
+                        </p>
+                    </div>
+
+                    <!-- 3 Core Admission Groups Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- 수시 모집 -->
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md">수시 모집</span>
+                                    <h3 class="text-lg font-bold text-slate-900 mt-2">수시 종합</h3>
+                                </div>
+                                <span class="text-2xl font-black text-blue-600">97.5%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-3">
+                                <div class="bg-blue-600 h-full rounded-full" style="width: 97.5%"></div>
+                            </div>
+                            <div class="text-xs text-slate-600 space-y-1 border-t border-slate-100 pt-3">
+                                <div class="flex justify-between"><span>모집 인원:</span> <span class="font-semibold text-slate-800">2,207명</span></div>
+                                <div class="flex justify-between"><span>등록 인원:</span> <span class="font-semibold text-slate-800">2,151명</span></div>
+                                <div class="flex justify-between text-rose-600"><span>미등록(결원):</span> <span class="font-semibold">56명</span></div>
+                            </div>
+                        </div>
+
+                        <!-- 정시 모집 -->
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">정시 모집</span>
+                                    <h3 class="text-lg font-bold text-slate-900 mt-2">정시 종합</h3>
+                                </div>
+                                <span class="text-2xl font-black text-emerald-600">99.1%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-3">
+                                <div class="bg-emerald-500 h-full rounded-full" style="width: 99.1%"></div>
+                            </div>
+                            <div class="text-xs text-slate-600 space-y-1 border-t border-slate-100 pt-3">
+                                <div class="flex justify-between"><span>모집 인원:</span> <span class="font-semibold text-slate-800">1,593명</span></div>
+                                <div class="flex justify-between"><span>등록 인원:</span> <span class="font-semibold text-slate-800">1,579명</span></div>
+                                <div class="flex justify-between text-slate-500"><span>미등록(결원):</span> <span class="font-semibold">14명</span></div>
+                            </div>
+                        </div>
+
+                        <!-- 자율 선발 -->
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md">자율 선발</span>
+                                    <h3 class="text-lg font-bold text-slate-900 mt-2">글로벌인재특별전형</h3>
+                                </div>
+                                <span class="text-2xl font-black text-purple-600">100%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-3">
+                                <div class="bg-purple-600 h-full rounded-full" style="width: 100%"></div>
+                            </div>
+                            <div class="text-xs text-slate-600 space-y-1 border-t border-slate-100 pt-3">
+                                <div class="flex justify-between"><span>모집 인원:</span> <span class="font-semibold text-slate-800">81명</span></div>
+                                <div class="flex justify-between"><span>등록 인원:</span> <span class="font-semibold text-slate-800">81명</span></div>
+                                <div class="flex justify-between text-emerald-600"><span>등록 완성도:</span> <span class="font-semibold">결원 0명 (완전 등록)</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comparison Chart & Breakdown -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                            <h3 class="font-bold text-slate-800 text-sm mb-4">2026 주요 전형별 등록률 비교Chart (%)</h3>
+                            <div class="h-64 relative">
+                                <canvas id="chartRegistration"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Detail Breakdown list -->
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 space-y-4">
+                            <h3 class="font-bold text-slate-900 text-sm border-b border-slate-100 pb-2">전형별 등록 특이사항 심층 분석</h3>
+                            
+                            <div class="space-y-3 text-xs text-slate-700">
+                                <div class="p-3 bg-amber-50/70 border border-amber-200 rounded-lg">
+                                    <div class="font-bold text-amber-900 mb-1 flex items-center justify-between">
+                                        <span>수시 vs 정시 지역균형전형 격차</span>
+                                        <span class="text-amber-700 text-xs">수시 93.3% vs 정시 99.3%</span>
+                                    </div>
+                                    <p class="leading-relaxed text-amber-800">
+                                        정시 지역균형(99.3%)에 비해 <strong>수시 지역균형전형(93.3%)</strong>의 등록률이 유의미하게 낮습니다. 이는 수능 최저학력기준 미충족에 따른 이탈 또는 타 의약학계열·상위권 대학 중복합격으로 인한 유출이 주요 원인으로 작용합니다.
+                                    </p>
+                                </div>
+
+                                <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                                    <div class="font-bold text-slate-900 mb-1">일반전형의 압도적 공고함</div>
+                                    <p class="leading-relaxed text-slate-600">
+                                        수시 일반전형(99.1%)과 정시 일반전형(99.4%)은 합격자의 충원 이탈이 거의 발생하지 않는 안정된 선호도를 나타냅니다.
+                                    </p>
+                                </div>
+
+                                <div class="p-3 bg-purple-50 border border-purple-200 rounded-lg">
+                                    <div class="font-bold text-purple-900 mb-1">글로벌인재 & 정원 외 특별전형</div>
+                                    <p class="leading-relaxed text-purple-800">
+                                        전교육과정해외이수자(55명) 및 부모모두외국인(26명) 총 81명 전원 등록 완료(100%). 정원 외 장애인 등 대상자 전형 역시 5명 모집에 5명 전원이 등록하여 100% 충원을 이뤘습니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: 대학 경쟁력 및 교육 여건 -->
+                <div id="tab3" class="tab-content hidden space-y-8">
+                    <div class="border-b border-slate-200 pb-4">
+                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <span class="bg-snu-blue text-white w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold">3</span>
+                            대학 경쟁력 및 핵심 교육 여건 지표
+                        </h2>
+                        <p class="text-sm text-slate-600 mt-1">
+                            국내 최상위 수준의 학생 1인당 교육비 투입과 우수한 전임교원 확보율을 통해 세계 수준의 연구·교육 인프라를 유지하고 있습니다.
+                        </p>
+                    </div>
+
+                    <!-- Visual Dashboard Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Card 1: 충원율 & 취업률 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-blue-100 text-snu-blue flex items-center justify-center font-bold">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-900 text-base">학생 충원 및 취업 실적</h3>
+                                    <span class="text-xs text-slate-500">학생 자원 유입 성과</span>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3 pt-2">
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span class="text-slate-600">신입생 충원율 (정원 내)</span>
+                                        <span class="text-snu-blue font-bold">99.7%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 h-2 rounded-full"><div class="bg-snu-blue h-2 rounded-full" style="width: 99.7%"></div></div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span class="text-slate-600">재학생 충원율</span>
+                                        <span class="text-emerald-600 font-bold">112.8%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 h-2 rounded-full"><div class="bg-emerald-500 h-2 rounded-full" style="width: 100%"></div></div>
+                                    <span class="text-[10px] text-slate-400 mt-0.5 block">정원 이상의 효율적 관리</span>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span class="text-slate-600">졸업자 기준 취업률</span>
+                                        <span class="text-indigo-600 font-bold">65.6%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 h-2 rounded-full"><div class="bg-indigo-500 h-2 rounded-full" style="width: 65.6%"></div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: 교육비 투자 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-900 text-base">전문화된 재정 투자</h3>
+                                    <span class="text-xs text-slate-500">1인당 투입 교육 자산</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-amber-50/50 p-4 rounded-xl border border-amber-100 space-y-3">
+                                <div>
+                                    <span class="text-xs text-slate-500 block">학생 1인당 교육비</span>
+                                    <span class="text-2xl font-black text-slate-900">63,021,143원</span>
+                                    <p class="text-[11px] text-amber-700 mt-1">압도적 국내 대학 1위 재정 투입</p>
+                                </div>
+                                <div class="border-t border-amber-200/60 pt-2">
+                                    <span class="text-xs text-slate-500 block">학생 1인당 장학금</span>
+                                    <span class="text-lg font-bold text-amber-900">3,499,102원</span>
+                                    <p class="text-[11px] text-slate-500">경제적 부담 경감 제도 실효성 증명</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: 교원 확보율 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 md:col-span-2 lg:col-span-1">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center font-bold">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-900 text-base">우수 교원 확보 수준</h3>
+                                    <span class="text-xs text-slate-500">재학생 기준 법정 지표</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-purple-50/50 p-4 rounded-xl border border-purple-100 text-center space-y-2">
+                                <span class="text-xs font-semibold text-purple-800">전임교원 확보율</span>
+                                <div class="text-3xl font-black text-purple-950">123.13%</div>
+                                <div class="inline-block bg-purple-200 text-purple-900 text-xs font-bold px-3 py-1 rounded-full">
+                                    법정 기준 대비 +23.13%p 초과
+                                </div>
+                                <p class="text-xs text-slate-600 mt-2 text-left leading-relaxed">
+                                    교수 1인당 학생 수를 적정 수준 이하로 엄격히 관리하여 밀도 높은 토론 수업 및 연구 지도 질 확보.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: 종합 결론 및 시사점 -->
+                <div id="tab4" class="tab-content hidden space-y-8">
+                    <div class="border-b border-slate-200 pb-4">
+                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <span class="bg-snu-blue text-white w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold">4</span>
+                            종합 평가 및 향후 입학 정책 시사점
+                        </h2>
+                        <p class="text-sm text-slate-600 mt-1">
+                            서울대학교 2024-2026 입학 통계 및 기회균형 데이터 분석을 바탕으로 도출된 4가지 핵심 전략 시사점입니다.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Insight 1 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-snu-blue transition-all space-y-3">
+                            <div class="flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-full bg-blue-100 text-snu-blue font-bold flex items-center justify-center text-sm">01</span>
+                                <h3 class="font-bold text-slate-900 text-base">사회적 책무 이행의 지속성과 강화</h3>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed pl-11">
+                                기회균형 선발 비율을 <strong>9.3% 수준으로 고르게 유지</strong>하고 있습니다. 특히 농어촌 학생 전형의 정원 내 인원을 130명까지 확장하고 저소득·장애인 대상 정원 외 전형을 안정적으로 운영함으로써 국립대로서의 공공성과 계층 사다리 구축 역할을 성실히 이행하고 있습니다.
+                            </p>
+                        </div>
+
+                        <!-- Insight 2 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-snu-blue transition-all space-y-3">
+                            <div class="flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-full bg-purple-100 text-purple-700 font-bold flex items-center justify-center text-sm">02</span>
+                                <h3 class="font-bold text-slate-900 text-base">글로벌 경쟁력 및 브랜드 가치 입증</h3>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed pl-11">
+                                자율 선발 전형인 글로벌인재특별전형에서 <strong>100% 등록률(81명 전원 등록)</strong>을 달성했으며, 수시·정시 일반전형에서도 99% 이상의 높은 등록률을 유지하여 국내외 최고 학문 기관으로서의 가치를 확고히 입증했습니다.
+                            </p>
+                        </div>
+
+                        <!-- Insight 3 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-snu-blue transition-all space-y-3">
+                            <div class="flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-full bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-sm">03</span>
+                                <h3 class="font-bold text-slate-900 text-base">최상위 교육 인프라 재정 투자</h3>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed pl-11">
+                                학생 1인당 교육비 6,300만 원 상회, 전임교원 확보율 123.1% 등 압도적인 교육 재정 투입은 우수인재의 유출을 막고 세계적 수준의 연구 환경을 조성하는 근간이 되고 있습니다.
+                            </p>
+                        </div>
+
+                        <!-- Insight 4 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-rose-500 hover:border-snu-blue transition-all space-y-3">
+                            <div class="flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-full bg-rose-100 text-rose-700 font-bold flex items-center justify-center text-sm">04</span>
+                                <h3 class="font-bold text-slate-900 text-base">수시 지역균형전형 제도 보완 필요성</h3>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed pl-11">
+                                정시 지역균형(99.3%)에 비해 <strong>수시 지역균형전형의 등록률(93.3%)</strong>이 상대적으로 낮게 나타나고 있습니다. 수능 최저학력기준의 적정성을 재검토하거나 선발 단계 구조 개편을 통해 이탈에 따른 결원을 방지하는 세부 보완 정책이 요구됩니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div>
+                <p class="font-semibold text-slate-300">2024-2026 서울대학교 입학 및 기회균형 선발 종합 분석 보고서</p>
+                <p class="mt-1 text-slate-500">본 웹보고서는 공식 입학 데이터 통계를 기반으로 제작된 대시보드 리포트입니다.</p>
+            </div>
+            <div class="text-slate-500">
+                &copy; 2026 SNU Admission Analytics. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic & Chart Scripts -->
+    <script>
+        // Tab switching logic
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            });
+            // Deactivate all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab content
+            const targetContent = document.getElementById(tabId);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+                targetContent.classList.add('block');
+            }
+
+            // Activate selected tab button
+            const targetBtn = document.getElementById('btn-' + tabId);
+            if (targetBtn) {
+                targetBtn.classList.add('active');
+            }
+        }
+
+        // Initialize Chart.js Graphs on Window Load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Chart 1: Total Admissions Trend (2024 - 2026)
+            const ctx1 = document.getElementById('chartAdmissions').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['2024년', '2025년', '2026년'],
+                    datasets: [{
+                        label: '총 입학자 수(A)',
+                        data: [3746, 3775, 3811],
+                        backgroundColor: ['#1E3A8A', '#2563EB', '#0F0D59'],
+                        borderRadius: 8,
+                        barThickness: 45
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` 총 입학자: ${context.parsed.y.toLocaleString()} 명`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            min: 3600,
+                            max: 3900,
+                            grid: { color: '#E2E8F0' }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // Chart 2: Equal Opportunity Count & Rate
+            const ctx2 = document.getElementById('chartEqualOp').getContext('2d');
+            new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: ['2024년', '2025년', '2026년'],
+                    datasets: [
+                        {
+                            label: '기회균형 선발인원 (명)',
+                            data: [348, 349, 353],
+                            borderColor: '#2563EB',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            fill: true,
+                            tension: 0.3,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: '기회균형 비율 (%)',
+                            data: [9.3, 9.2, 9.3],
+                            borderColor: '#D97706',
+                            borderDash: [5, 5],
+                            pointRadius: 6,
+                            pointBackgroundColor: '#D97706',
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            position: 'left',
+                            min: 330,
+                            max: 370,
+                            title: { display: true, text: '선발 인원(명)' },
+                            grid: { color: '#E2E8F0' }
+                        },
+                        y1: {
+                            type: 'linear',
+                            position: 'right',
+                            min: 8.5,
+                            max: 10.0,
+                            title: { display: true, text: '비율(%)' },
+                            grid: { drawOnChartArea: false }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // Chart 3: 2026 Enrollment Rates by Category
+            const ctx3 = document.getElementById('chartRegistration').getContext('2d');
+            new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: ['수시 지역균형', '수시 일반', '정시 지역균형', '정시 일반', '장애인등(정원외)', '글로벌인재'],
+                    datasets: [{
+                        label: '등록률 (%)',
+                        data: [93.3, 99.1, 99.3, 99.4, 100.0, 100.0],
+                        backgroundColor: [
+                            '#F59E0B', // 수시 지균 (낮음)
+                            '#2563EB',
+                            '#10B981',
+                            '#059669',
+                            '#8B5CF6',
+                            '#6D28D9'  // 글로벌
+                        ],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            min: 90,
+                            max: 100,
+                            grid: { color: '#E2E8F0' }
+                        },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
