@@ -12,26 +12,14 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0284c7',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        },
-                        secondary: {
-                            50: '#f8fafc',
-                            500: '#64748b',
-                            800: '#1e293b',
-                            900: '#0f172a',
-                        },
-                        accent: {
-                            traffic: '#ef4444',
-                            trafficLight: '#fee2e2',
-                            career: '#10b981',
-                            careerLight: '#d1fae5',
+                        chelsea: {
+                            50: '#e6f0fa',
+                            100: '#cce0f5',
+                            500: '#0053a0',
+                            600: '#034694', // Chelsea Royal Blue
+                            700: '#003370',
+                            800: '#00224d',
+                            900: '#00142b',
                         }
                     },
                     fontFamily: {
@@ -49,282 +37,272 @@
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Chart.js for data visualization -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         body {
             font-family: 'Pretendard', 'Inter', sans-serif;
         }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.75);
+        .glass-header {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .glass-card {
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        .dark .glass-panel {
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        .chelsea-gradient-text {
+            background: linear-gradient(135deg, #034694 0%, #1e6ac8 50%, #4da3ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
+        .dark .chelsea-gradient-text {
+            background: linear-gradient(135deg, #4da3ff 0%, #7dbbff 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
+        .chelsea-glow {
+            box-shadow: 0 15px 35px -5px rgba(3, 70, 148, 0.25);
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(156, 163, 175, 0.5);
-            border-radius: 9999px;
+        .dark .chelsea-glow {
+            box-shadow: 0 15px 35px -5px rgba(77, 163, 255, 0.2);
         }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 dark:bg-chelsea-900 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col selection:bg-[#034694] selection:text-white">
 
-    <!-- Navbar -->
-    <header class="sticky top-0 z-40 w-full glass-panel border-b border-slate-200/80 dark:border-slate-800/80 transition-all">
-        <div class="max-w-7xl mx-mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <!-- Brand Logo -->
-            <a href="../index.html" class="flex items-center gap-2 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform">
-                    <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+    <header class="sticky top-0 z-40 w-full glass-header bg-white/85 dark:bg-chelsea-900/85 border-b border-chelsea-100 dark:border-chelsea-800 transition-all shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo with Home Link -->
+            <a href="../index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#034694] via-[#1e6ac8] to-[#4da3ff] p-0.5 shadow-md shadow-[#034694]/30 group-hover:scale-105 transition-transform">
+                    <div class="w-full h-full bg-white dark:bg-chelsea-900 rounded-[10px] flex items-center justify-center">
+                        <i data-lucide="bar-chart-3" class="w-5 h-5 text-[#034694] dark:text-[#4da3ff]"></i>
+                    </div>
                 </div>
                 <div class="flex flex-col">
-                    <span class="font-bold text-lg text-slate-900 dark:text-white leading-tight">DataPortfolio</span>
-                    <span class="text-xs text-sky-600 dark:text-sky-400 font-medium">공공데이터 분석가</span>
+                    <span class="font-extrabold text-lg text-slate-900 dark:text-white leading-tight tracking-wide">DataPortfolio</span>
+                    <span class="text-xs text-[#034694] dark:text-[#4da3ff] font-bold">공공데이터 분석가</span>
                 </div>
             </a>
 
             <!-- Navigation Links -->
             <nav class="hidden md:flex items-center gap-8 font-medium text-sm text-slate-600 dark:text-slate-300">
-                <a href="../index.html" class="inline-flex items-center gap-1.5 text-sky-600 dark:text-sky-400 font-semibold hover:text-sky-700 transition-colors">
+                <a href="../index.html" class="inline-flex items-center gap-1.5 text-[#034694] dark:text-[#4da3ff] font-bold hover:opacity-80 transition-opacity">
                     <i data-lucide="home" class="w-4 h-4"></i>
                     <span>홈</span>
                 </a>
-                <a href="#about" class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">소개</a>
-                <a href="#reports" class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">주요 보고서</a>
-                <a href="#methodology" class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">분석 프로세스</a>
-                <a href="#skills" class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">기술 스택</a>
-                <a href="#timeline" class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">활동 타임라인</a>
+                <a href="#about" class="hover:text-[#034694] dark:hover:text-[#4da3ff] transition-colors">소개</a>
+                <a href="#reports" class="hover:text-[#034694] dark:hover:text-[#4da3ff] transition-colors">주요 보고서</a>
             </nav>
 
-            <!-- Actions -->
+            <!-- Actions & Theme Toggle -->
             <div class="flex items-center gap-3">
-                <!-- Home Quick Button -->
-                <a href="../index.html" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-1.5 text-xs font-semibold" title="홈으로 이동">
-                    <i data-lucide="home" class="w-4 h-4"></i>
-                    <span class="hidden sm:inline">홈</span>
+                <a href="../index.html" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-chelsea-50 dark:bg-chelsea-800/60 hover:bg-chelsea-100 text-[#034694] dark:text-blue-300 text-xs font-semibold border border-chelsea-200 dark:border-chelsea-700 transition-all">
+                    <i data-lucide="home" class="w-3.5 h-3.5"></i>
+                    <span>홈으로 이동</span>
                 </a>
-
-                <!-- Theme Toggle Button -->
-                <button id="themeToggle" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="테마 전환">
-                    <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
-                    <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+                
+                <!-- Dark / Light Mode Toggle Button -->
+                <button id="themeToggle" onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-chelsea-50 dark:bg-chelsea-800 border border-chelsea-200 dark:border-chelsea-700 text-[#034694] dark:text-yellow-400 hover:scale-105 transition-all shadow-sm" aria-label="테마 전환">
+                    <i id="themeIconSun" data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                    <i id="themeIconMoon" data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
                 </button>
 
-                <!-- Contact Button -->
-                <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-sm font-semibold shadow-md shadow-sky-600/20 transition-all hover:shadow-lg hover:shadow-sky-600/30">
-                    <i data-lucide="mail" class="w-4 h-4"></i>
-                    <span>문의하기</span>
+                <a href="#reports" class="hidden sm:inline-flex px-4 py-2 rounded-xl bg-gradient-to-r from-[#034694] to-[#1e6ac8] hover:opacity-90 text-white font-bold text-xs tracking-wider shadow-md shadow-[#034694]/30 transition-all hover:scale-105">
+                    보고서 보기
                 </a>
 
-                <!-- Mobile menu toggle -->
-                <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-chelsea-50 dark:hover:bg-chelsea-800">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
             </div>
         </div>
 
         <!-- Mobile Navigation Menu -->
-        <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pt-2 pb-4 space-y-2">
-            <a href="../index.html" class="flex items-center gap-2 py-2 text-sky-600 font-bold">
+        <div id="mobileMenu" class="hidden md:hidden border-t border-chelsea-100 dark:border-chelsea-800 bg-white dark:bg-chelsea-900 px-4 pt-3 pb-5 space-y-2 shadow-lg">
+            <a href="../index.html" class="flex items-center gap-2 py-2 text-[#034694] dark:text-[#4da3ff] font-bold">
                 <i data-lucide="home" class="w-4 h-4"></i>
                 <span>홈</span>
             </a>
-            <a href="#about" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-sky-600">소개</a>
-            <a href="#reports" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-sky-600">주요 보고서</a>
-            <a href="#methodology" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-sky-600">분석 프로세스</a>
-            <a href="#skills" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-sky-600">기술 스택</a>
-            <a href="#timeline" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-sky-600">활동 타임라인</a>
-            <a href="#contact" class="block py-2 text-sky-600 font-semibold">문의하기</a>
+            <a href="#about" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-[#034694]">소개</a>
+            <a href="#reports" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-[#034694]">주요 보고서</a>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="about" class="relative pt-12 pb-20 md:pt-20 md:pb-28 overflow-hidden">
-        <!-- Background Decorative Blobs -->
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-sky-400/15 dark:bg-sky-600/10 rounded-full blur-3xl -z-10 pointer-events-none"></div>
-        <div class="absolute top-1/3 right-10 w-[300px] h-[300px] bg-emerald-400/10 dark:bg-emerald-600/10 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+    <section id="about" class="relative pt-12 pb-20 md:pt-20 md:pb-28 overflow-hidden bg-gradient-to-b from-slate-50 via-blue-50/40 to-slate-50 dark:from-chelsea-900 dark:via-chelsea-800/50 dark:to-chelsea-900">
+        <!-- Background Ambient Lighting -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-[#034694]/15 dark:bg-[#4da3ff]/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
                 <!-- Hero Left Content -->
                 <div class="lg:col-span-7 space-y-6">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 text-xs font-semibold">
-                        <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100/80 dark:bg-chelsea-800/80 border border-chelsea-200 dark:border-chelsea-700 text-[#034694] dark:text-blue-300 text-xs font-bold tracking-wider uppercase shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-[#034694] dark:bg-[#4da3ff] animate-pulse"></span>
                         공공데이터 분석 & 인사이트 시각화 포트폴리오
                     </div>
 
-                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.25]">
-                        데이터로 <span class="bg-gradient-to-r from-sky-600 via-indigo-500 to-emerald-500 bg-clip-text text-transparent">세상의 문제</span>를 분석하고,<br>
-                        더 나은 의사결정을 제안합니다.
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.25]">
+                        데이터로 <span class="chelsea-gradient-text">세상의 문제</span>를 분석하고,<br>
+                        명확한 가치를 제안합니다.
                     </h1>
 
-                    <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
+                    <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl font-normal">
                         안녕하세요! 공공 빅데이터를 수집·가공·시각화하여 사회적 가치를 창출하는 데이터 분석가입니다. 
-                        <strong>대학알리미</strong>의 대학/학과 진로 지표와 <strong>도로교통공단</strong>의 사고 빅데이터를 분석하여 대화형 웹 보고서로 구축했습니다.
+                        <strong class="text-[#034694] dark:text-[#4da3ff] font-semibold">대학알리미</strong>의 대학/학과 진로 지표와 <strong class="text-[#034694] dark:text-[#4da3ff] font-semibold">도로교통공단</strong>의 사고 빅데이터를 분석하여 인터랙티브 웹 보고서로 구축했습니다.
                     </p>
 
                     <!-- Quick Call to Action -->
                     <div class="flex flex-wrap gap-4 pt-2">
-                        <a href="#reports" class="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-sky-600 dark:hover:bg-sky-500 text-white font-medium shadow-lg shadow-slate-900/10 dark:shadow-sky-600/20 flex items-center gap-2 transition-all hover:-translate-y-0.5">
+                        <a href="#reports" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#034694] to-[#1e6ac8] hover:opacity-90 text-white font-bold shadow-lg shadow-[#034694]/30 flex items-center gap-2 transition-all hover:-translate-y-0.5">
                             <i data-lucide="file-text" class="w-5 h-5"></i>
                             <span>주요 보고서 확인하기</span>
                         </a>
-                        <button onclick="downloadResume()" class="px-6 py-3.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-200 font-medium flex items-center gap-2 transition-all">
-                            <i data-lucide="download" class="w-5 h-5"></i>
+                        <button onclick="downloadResume()" class="px-6 py-3.5 rounded-xl bg-white dark:bg-chelsea-800 border border-chelsea-200 dark:border-chelsea-700 hover:bg-chelsea-50 dark:hover:bg-chelsea-700 text-[#034694] dark:text-blue-300 font-semibold flex items-center gap-2 shadow-sm transition-all">
+                            <i data-lucide="download" class="w-5 h-5 text-[#034694] dark:text-[#4da3ff]"></i>
                             <span>포트폴리오 PDF</span>
                         </button>
                     </div>
 
                     <!-- Highlights Stat Badges -->
-                    <div class="grid grid-cols-3 gap-4 pt-6 border-t border-slate-200 dark:border-slate-800/80">
+                    <div class="grid grid-cols-3 gap-4 pt-6 border-t border-chelsea-100 dark:border-chelsea-800">
                         <div>
-                            <p class="text-2xl sm:text-3xl font-extrabold text-sky-600 dark:text-sky-400">100,000+</p>
-                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">분석 데이터 레코드</p>
+                            <p class="text-2xl sm:text-3xl font-black text-[#034694] dark:text-[#4da3ff]">100,000+</p>
+                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5 font-medium">분석 데이터 레코드</p>
                         </div>
                         <div>
-                            <p class="text-2xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">2대 핵심</p>
-                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">진로 & 교통 빅데이터</p>
+                            <p class="text-2xl sm:text-3xl font-black text-[#1e6ac8] dark:text-blue-400">2대 핵심</p>
+                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5 font-medium">진로 & 교통 빅데이터</p>
                         </div>
                         <div>
-                            <p class="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">98.5%</p>
-                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">시각화 인덱스 검증</p>
+                            <p class="text-2xl sm:text-3xl font-black text-[#034694] dark:text-[#4da3ff]">98.5%</p>
+                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5 font-medium">시각화 검증율</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Hero Right Card Mockup -->
                 <div class="lg:col-span-5 relative">
-                    <div class="relative mx-auto max-w-md lg:max-w-none rounded-2xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl space-y-6">
-                        <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    <div class="relative mx-auto max-w-md lg:max-w-none rounded-2xl p-6 glass-card bg-white/90 dark:bg-chelsea-800/90 border border-chelsea-200 dark:border-chelsea-700 chelsea-glow space-y-6 shadow-xl">
+                        <div class="flex items-center justify-between border-b border-chelsea-100 dark:border-chelsea-700 pb-4">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
                             </div>
-                            <span class="text-xs font-mono text-slate-400">public_data_analytics.py</span>
+                            <span class="text-xs font-mono text-[#034694] dark:text-[#4da3ff] font-semibold">public_data_analytics.py</span>
                         </div>
 
                         <!-- Data Summary Card Preview inside Hero -->
                         <div class="space-y-4">
-                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800 flex items-start gap-4">
-                                <div class="p-2.5 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400">
+                            <div class="p-4 rounded-xl bg-chelsea-50 dark:bg-chelsea-900/60 border border-chelsea-100 dark:border-chelsea-700 flex items-start gap-4">
+                                <div class="p-2.5 rounded-lg bg-[#034694] text-white shadow-sm shadow-[#034694]/30">
                                     <i data-lucide="graduation-cap" class="w-6 h-6"></i>
                                 </div>
                                 <div>
-                                    <h4 class="text-sm font-semibold text-slate-900 dark:text-white">대학알리미 진로 지표 분석</h4>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">전국 200+ 대학 학과별 취업률 및 진학률 상관관계 정밀 분석 완료</p>
+                                    <h4 class="text-sm font-bold text-slate-900 dark:text-white">대학알리미 진로 지표 분석</h4>
+                                    <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">전국 대학 학과별 입학 및 진학·취업 지표 정밀 분석 완료</p>
                                 </div>
                             </div>
 
-                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800 flex items-start gap-4">
-                                <div class="p-2.5 rounded-lg bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400">
+                            <div class="p-4 rounded-xl bg-blue-50 dark:bg-chelsea-900/60 border border-blue-100 dark:border-chelsea-700 flex items-start gap-4">
+                                <div class="p-2.5 rounded-lg bg-[#1e6ac8] text-white shadow-sm shadow-[#1e6ac8]/30">
                                     <i data-lucide="car" class="w-6 h-6"></i>
                                 </div>
                                 <div>
-                                    <h4 class="text-sm font-semibold text-slate-900 dark:text-white">도로교통공단 사고 위험도 예측</h4>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">TAAS 사고 데이터 시간대·날씨별 패턴 클러스터링 모형 개발</p>
+                                    <h4 class="text-sm font-bold text-slate-900 dark:text-white">도로교통공단 사고 위험도 분석</h4>
+                                    <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">TAAS 사고 데이터 시계열 및 시간대별 패턴 시각화</p>
                                 </div>
                             </div>
 
-                            <!-- Mini Chart Widget -->
-                            <div class="p-4 rounded-xl bg-sky-50/50 dark:bg-sky-950/30 border border-sky-100 dark:border-sky-900/50">
+                            <!-- Mini Progress Widget -->
+                            <div class="p-4 rounded-xl bg-white dark:bg-chelsea-900 border border-chelsea-100 dark:border-chelsea-700 shadow-sm">
                                 <div class="flex justify-between items-center mb-2">
-                                    <span class="text-xs font-semibold text-sky-900 dark:text-sky-300">데이터 처리 효율성</span>
-                                    <span class="text-xs font-mono text-sky-600 dark:text-sky-400">Automated Pipeline</span>
+                                    <span class="text-xs font-bold text-[#034694] dark:text-[#4da3ff]">데이터 자동화 파이프라인</span>
+                                    <span class="text-xs font-mono text-[#034694] dark:text-[#4da3ff] font-bold">98% Complete</span>
                                 </div>
-                                <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
-                                    <div class="bg-gradient-to-r from-sky-500 to-emerald-500 h-full w-[92%] rounded-full"></div>
+                                <div class="w-full bg-slate-100 dark:bg-chelsea-800 h-2.5 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-[#034694] via-[#1e6ac8] to-[#4da3ff] h-full w-[98%] rounded-full"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Featured Reports Section (주요 보고서 카드) -->
-    <section id="reports" class="py-20 bg-slate-100/70 dark:bg-slate-900/50 border-y border-slate-200/80 dark:border-slate-800/80">
+    <section id="reports" class="py-20 bg-white dark:bg-chelsea-900 border-y border-chelsea-100 dark:border-chelsea-800 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100 dark:bg-sky-950 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 text-xs font-bold uppercase tracking-wider">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-chelsea-50 dark:bg-chelsea-800 border border-chelsea-200 dark:border-chelsea-700 text-[#034694] dark:text-blue-300 text-xs font-bold uppercase tracking-wider">
                     Core Projects
                 </div>
                 <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
                     주요 공공데이터 분석 보고서
                 </h2>
-                <p class="text-slate-600 dark:text-slate-400 text-base sm:text-lg">
-                    공공데이터 웹 API와 정형 데이터를 가공하여 인사이트를 도출한 핵심 연구 보고서입니다.<br class="hidden sm:inline"> 각 카드를 클릭하면 상세 인터랙티브 시각화 리포트를 열람할 수 있습니다.
+                <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg font-normal">
+                    공공데이터 API와 정형 데이터를 가공하여 인사이트를 도출한 핵심 연구 보고서입니다.<br class="hidden sm:inline"> 각 카드의 버튼을 클릭하면 해당 상세 웹보고서로 즉시 이동합니다.
                 </p>
             </div>
 
-            <!-- Report Cards Grid (3-column layout on large screens) -->
+            <!-- Report Cards Grid (3-column layout) -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
-                <!-- Card 1: 서울대학교 입학 및 기회균형 선발 종합 분석 -->
-                <div class="group relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1">
-                    <!-- Top Accent Banner -->
-                    <div class="h-2 bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500"></div>
+                <!-- Card 1: 2024-2026 서울대학교 입학 및 기회균형 선발 종합 분석 -->
+                <div class="group relative glass-card bg-white/90 dark:bg-chelsea-800/90 rounded-2xl border border-chelsea-200 dark:border-chelsea-700 shadow-lg transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1 hover:border-[#034694]">
+                    <!-- Top Blue Highlight Bar -->
+                    <div class="h-1.5 bg-gradient-to-r from-[#034694] via-[#1e6ac8] to-[#4da3ff]"></div>
                     
                     <div class="p-6 sm:p-8 flex-1 flex flex-col justify-between">
                         <div>
                             <!-- Header Tags -->
                             <div class="flex items-center justify-between gap-2 mb-4">
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 text-xs font-semibold border border-emerald-200 dark:border-emerald-800">
-                                    <i data-lucide="database" class="w-3.5 h-3.5"></i>
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-chelsea-50 dark:bg-chelsea-900 text-[#034694] dark:text-[#4da3ff] text-xs font-bold border border-chelsea-200 dark:border-chelsea-700">
+                                    <i data-lucide="database" class="w-3.5 h-3.5 text-[#034694] dark:text-[#4da3ff]"></i>
                                     대학알리미 & 입시 데이터
                                 </span>
-                                <span class="text-xs text-slate-400 font-mono">Admission Analytics</span>
+                                <span class="text-xs text-slate-400 font-mono font-medium">Admission Analytics</span>
                             </div>
 
                             <!-- Title & Subtitle -->
-                            <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                                2024-2026 서울대학교 입학 및 기회균형 선발 종합 분석
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-[#034694] dark:group-hover:text-[#4da3ff] transition-colors leading-snug">
+                                2024-2026 서울대학교 입학 및 기회균형 선발 종합 분석 웹보고서
                             </h3>
-                            <p class="text-slate-600 dark:text-slate-300 text-sm mt-3 leading-relaxed">
+                            <p class="text-slate-600 dark:text-slate-300 text-sm mt-3 leading-relaxed font-normal">
                                 대학알리미 및 서울대학교 공시 데이터를 바탕으로 2024~2026학년도 서울대학교 입학 전형별 모집 결과 및 기회균형 선발 전형의 입학 현황을 종합 분석한 웹보고서입니다.
                             </p>
 
                             <!-- Key Findings Summary -->
-                            <div class="my-6 p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800 space-y-2">
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 mr-2 flex-shrink-0"></i>
+                            <div class="my-6 p-4 rounded-xl bg-chelsea-50/50 dark:bg-chelsea-900/50 border border-chelsea-100 dark:border-chelsea-700 space-y-2.5">
+                                <div class="flex items-center text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-[#034694] dark:text-[#4da3ff] mr-2 flex-shrink-0"></i>
                                     <span>기회균형선발 전형 합격자 비율 및 계열별 분포 추이 분석</span>
                                 </div>
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 mr-2 flex-shrink-0"></i>
+                                <div class="flex items-center text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-[#034694] dark:text-[#4da3ff] mr-2 flex-shrink-0"></i>
                                     <span>수시·정시 전형별 입시 결과 및 지역별 분포 분석</span>
                                 </div>
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 mr-2 flex-shrink-0"></i>
+                                <div class="flex items-center text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-[#034694] dark:text-[#4da3ff] mr-2 flex-shrink-0"></i>
                                     <span>대학알리미 및 공시 데이터 탐색적 분석(EDA) 완료</span>
                                 </div>
                             </div>
 
                             <!-- Tech Chips -->
                             <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">Python</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">Pandas</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">Chart.js</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">입시 데이터</span>
+                                <span class="px-2.5 py-1 rounded-md bg-white dark:bg-chelsea-900 border border-chelsea-200 dark:border-chelsea-700 text-[#034694] dark:text-blue-300 text-xs font-semibold shadow-xs">Python</span>
+                                <span class="px-2.5 py-1 rounded-md bg-white dark:bg-chelsea-900 border border-chelsea-200 dark:border-chelsea-700 text-[#034694] dark:text-blue-300 text-xs font-semibold shadow-xs">Pandas</span>
+                                <span class="px-2.5 py-1 rounded-md bg-white dark:bg-chelsea-900 border border-chelsea-200 dark:border-chelsea-700 text-[#034694] dark:text-blue-300 text-xs font-semibold shadow-xs">Chart.js</span>
+                                <span class="px-2.5 py-1 rounded-md bg-white dark:bg-chelsea-900 border border-chelsea-200 dark:border-chelsea-700 text-[#034694] dark:text-blue-300 text-xs font-semibold shadow-xs">입시 데이터</span>
                             </div>
                         </div>
 
-                        <!-- Card Footer Action -->
-                        <a href="./data1/index.html" class="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 transition-all">
+                        <!-- Card Footer Action with exact link -->
+                        <a href="./data1/index.html" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#034694] to-[#1e6ac8] hover:opacity-90 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-[#034694]/30 transition-all">
                             <i data-lucide="book-open" class="w-4 h-4"></i>
                             <span>진로 보고서 상세 보기 (웹페이지)</span>
                             <i data-lucide="arrow-right" class="w-4 h-4"></i>
@@ -333,57 +311,57 @@
                 </div>
 
                 <!-- Card 2: 요일 및 월별 자전거 사고 분석 -->
-                <div class="group relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1">
-                    <!-- Top Accent Banner -->
-                    <div class="h-2 bg-gradient-to-r from-red-500 via-orange-500 to-amber-500"></div>
+                <div class="group relative glass-card bg-white/90 dark:bg-chelsea-800/90 rounded-2xl border border-chelsea-200 dark:border-chelsea-700 shadow-lg transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1 hover:border-[#034694]">
+                    <!-- Top Blue Highlight Bar -->
+                    <div class="h-1.5 bg-gradient-to-r from-[#1e6ac8] via-[#034694] to-[#00224d]"></div>
 
                     <div class="p-6 sm:p-8 flex-1 flex flex-col justify-between">
                         <div>
                             <!-- Header Tags -->
                             <div class="flex items-center justify-between gap-2 mb-4">
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-red-50 dark:bg-red-950/80 text-red-700 dark:text-red-300 text-xs font-semibold border border-red-200 dark:border-red-800">
-                                    <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-50 dark:bg-chelsea-900 text-[#1e6ac8] dark:text-blue-400 text-xs font-bold border border-blue-200 dark:border-chelsea-700">
+                                    <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-[#1e6ac8] dark:text-blue-400"></i>
                                     도로교통공단 TAAS 데이터
                                 </span>
-                                <span class="text-xs text-slate-400 font-mono">Bicycle Safety</span>
+                                <span class="text-xs text-slate-400 font-mono font-medium">Bicycle Safety</span>
                             </div>
 
                             <!-- Title & Subtitle -->
-                            <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-[#034694] dark:group-hover:text-[#4da3ff] transition-colors leading-snug">
                                 요일 및 월별 자전거 사고 분석
                             </h3>
-                            <p class="text-slate-600 dark:text-slate-300 text-sm mt-3 leading-relaxed">
+                            <p class="text-slate-600 dark:text-slate-300 text-sm mt-3 leading-relaxed font-normal">
                                 도로교통공단(KoROAD)의 자전거 사고 빅데이터를 바탕으로 요일별, 월별(계절별) 발생 패턴 및 원인을 분석하고 안전 대책을 도출한 보고서입니다.
                             </p>
 
                             <!-- Key Findings Summary -->
-                            <div class="my-6 p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800 space-y-2">
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-red-500 mr-2 flex-shrink-0"></i>
+                            <div class="my-6 p-4 rounded-xl bg-blue-50/50 dark:bg-chelsea-900/50 border border-blue-100 dark:border-chelsea-700 space-y-2.5">
+                                <div class="flex items-center text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-[#1e6ac8] dark:text-blue-400 mr-2 flex-shrink-0"></i>
                                     <span>야외 활동이 증가하는 5~10월 및 주말 사고 집중 규명</span>
                                 </div>
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-red-500 mr-2 flex-shrink-0"></i>
+                                <div class="flex items-center text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-[#1e6ac8] dark:text-blue-400 mr-2 flex-shrink-0"></i>
                                     <span>자전거 도로 유무 및 유형별 사고 위험도 상관관계 도출</span>
                                 </div>
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-red-500 mr-2 flex-shrink-0"></i>
+                                <div class="flex items-center text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-[#1e6ac8] dark:text-blue-400 mr-2 flex-shrink-0"></i>
                                     <span>자전거 인프라 정비 및 안전 주행 가이드라인 정책 제안</span>
                                 </div>
                             </div>
 
                             <!-- Tech Chips -->
                             <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">Python</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">Pandas</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">시계열 분석</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">TAAS API</span>
+                                <span class="px-2.5 py-1 rounded-md bg-white dark:bg-chelsea-900 border border-chelsea-200 dark:border-chelsea-700 text-[#034694] dark:text-blue-300 text-xs font-semibold shadow-xs">Python</span>
+                                <span class="px-2.5 py-1 rounded-md bg-white dark:bg-chelsea-900 border border-chelsea-200 dark:border-chelsea-700 text-[#034694] dark:text-blue-300 text-xs font-semibold shadow-xs">Pandas</span>
+                                <span class="px-2.5 py-1 rounded-md bg-white dark:bg-chelsea-900 border border-chelsea-200 dark:border-chelsea-700 text-[#034694] dark:text-blue-300 text-xs font-semibold shadow-xs">시계열 분석</span>
+                                <span class="px-2.5 py-1 rounded-md bg-white dark:bg-chelsea-900 border border-chelsea-200 dark:border-chelsea-700 text-[#034694] dark:text-blue-300 text-xs font-semibold shadow-xs">TAAS API</span>
                             </div>
                         </div>
 
-                        <!-- Card Footer Action -->
-                        <a href="./data2/index.html" class="w-full py-3 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-md shadow-red-600/20 transition-all">
-                            <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+                        <!-- Card Footer Action with exact link -->
+                        <a href="./data2/index.html" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#034694] to-[#1e6ac8] hover:opacity-90 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-[#034694]/30 transition-all">
+                            <i data-lucide="bar-chart-2" class="w-4 h-4 text-blue-200"></i>
                             <span>교통데이터 보고서 상세 보기(웹페이지)</span>
                             <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </a>
@@ -391,57 +369,57 @@
                 </div>
 
                 <!-- Card 3: 어린이 교통사고 시간 분석 -->
-                <div class="group relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1">
-                    <!-- Top Accent Banner -->
-                    <div class="h-2 bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500"></div>
+                <div class="group relative glass-card bg-white/90 dark:bg-chelsea-800/90 rounded-2xl border border-chelsea-200 dark:border-chelsea-700 shadow-lg transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1 hover:border-[#034694]">
+                    <!-- Top Blue Highlight Bar -->
+                    <div class="h-1.5 bg-gradient-to-r from-[#4da3ff] via-[#034694] to-[#003370]"></div>
 
                     <div class="p-6 sm:p-8 flex-1 flex flex-col justify-between">
                         <div>
                             <!-- Header Tags -->
                             <div class="flex items-center justify-between gap-2 mb-4">
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-amber-50 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 text-xs font-semibold border border-amber-200 dark:border-amber-800">
-                                    <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-sky-50 dark:bg-chelsea-900 text-[#034694] dark:text-blue-300 text-xs font-bold border border-sky-200 dark:border-chelsea-700">
+                                    <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-[#034694] dark:text-blue-300"></i>
                                     도로교통공단 어린이 안전 데이터
                                 </span>
-                                <span class="text-xs text-slate-400 font-mono">Child Safety</span>
+                                <span class="text-xs text-slate-400 font-mono font-medium">Child Safety</span>
                             </div>
 
                             <!-- Title & Subtitle -->
-                            <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-[#034694] dark:group-hover:text-[#4da3ff] transition-colors leading-snug">
                                 어린이 교통사고 시간 분석
                             </h3>
-                            <p class="text-slate-600 dark:text-slate-300 text-sm mt-3 leading-relaxed">
+                            <p class="text-slate-600 dark:text-slate-300 text-sm mt-3 leading-relaxed font-normal">
                                 도로교통공단 데이터를 활용하여 어린이 교통사고의 시간대별(등하교, 방과 후 시간) 발생 특성을 분석하고 사고 예방 방안을 제시한 보고서입니다.
                             </p>
 
                             <!-- Key Findings Summary -->
-                            <div class="my-6 p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800 space-y-2">
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 mr-2 flex-shrink-0"></i>
+                            <div class="my-6 p-4 rounded-xl bg-sky-50/50 dark:bg-chelsea-900/50 border border-sky-100 dark:border-chelsea-700 space-y-2.5">
+                                <div class="flex items-center text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-[#034694] dark:text-[#4da3ff] mr-2 flex-shrink-0"></i>
                                     <span>하교 및 학원 이동 시간대(14시~18시) 사고 집중 현상 도출</span>
                                 </div>
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 mr-2 flex-shrink-0"></i>
+                                <div class="flex items-center text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-[#034694] dark:text-[#4da3ff] mr-2 flex-shrink-0"></i>
                                     <span>어린이 보호구역(스쿨존) 내 시간대별 위험지수 모델링</span>
                                 </div>
-                                <div class="flex items-center text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 mr-2 flex-shrink-0"></i>
+                                <div class="flex items-center text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-[#034694] dark:text-[#4da3ff] mr-2 flex-shrink-0"></i>
                                     <span>맞춤형 교통안전 지도 및 가변형 속도제한 시스템 제안</span>
                                 </div>
                             </div>
 
                             <!-- Tech Chips -->
                             <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">Python</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">TAAS API</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">시간대별 패턴 분석</span>
-                                <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs">데이터 시각화</span>
+                                <span class="px-2.5 py-1 rounded-md bg-white dark:bg-chelsea-900 border border-chelsea-200 dark:border-chelsea-700 text-[#034694] dark:text-blue-300 text-xs font-semibold shadow-xs">Python</span>
+                                <span class="px-2.5 py-1 rounded-md bg-white dark:bg-chelsea-900 border border-chelsea-200 dark:border-chelsea-700 text-[#034694] dark:text-blue-300 text-xs font-semibold shadow-xs">TAAS API</span>
+                                <span class="px-2.5 py-1 rounded-md bg-white dark:bg-chelsea-900 border border-chelsea-200 dark:border-chelsea-700 text-[#034694] dark:text-blue-300 text-xs font-semibold shadow-xs">시간대별 패턴 분석</span>
+                                <span class="px-2.5 py-1 rounded-md bg-white dark:bg-chelsea-900 border border-chelsea-200 dark:border-chelsea-700 text-[#034694] dark:text-blue-300 text-xs font-semibold shadow-xs">데이터 시각화</span>
                             </div>
                         </div>
 
-                        <!-- Card Footer Action -->
-                        <a href="./data3/index.html" class="w-full py-3 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-md shadow-amber-600/20 transition-all">
-                            <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+                        <!-- Card Footer Action with exact link -->
+                        <a href="./data3/index.html" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#034694] to-[#1e6ac8] hover:opacity-90 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-[#034694]/30 transition-all">
+                            <i data-lucide="bar-chart-2" class="w-4 h-4 text-blue-200"></i>
                             <span>교통데이터 보고서 상세 보기(웹페이지)</span>
                             <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </a>
@@ -451,4 +429,77 @@
             </div>
         </div>
     </section>
-<!-- ... existing code -->
+
+    <footer class="mt-auto bg-slate-900 dark:bg-[#00142b] text-slate-300 py-10 border-t border-slate-800 dark:border-chelsea-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-[#034694]/30 border border-[#034694]/50 flex items-center justify-center">
+                    <i data-lucide="bar-chart-3" class="w-4 h-4 text-[#4da3ff]"></i>
+                </div>
+                <span class="text-sm font-bold text-white">Data Analytics Portfolio</span>
+            </div>
+            <p class="text-xs text-slate-400">
+                &copy; 2026 Public Data Analyst. All rights reserved.
+            </p>
+            <div class="flex items-center gap-4 text-slate-400 text-xs">
+                <a href="../index.html" class="hover:text-[#4da3ff] transition-colors">홈</a>
+                <span>•</span>
+                <a href="#about" class="hover:text-[#4da3ff] transition-colors">소개</a>
+                <span>•</span>
+                <a href="#reports" class="hover:text-[#4da3ff] transition-colors">주요 보고서</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Dark / Light Mode Toggle Functionality
+        function toggleDarkMode() {
+            const htmlEl = document.documentElement;
+            if (htmlEl.classList.contains('dark')) {
+                htmlEl.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlEl.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Check user's saved preference on page load
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+
+        // Resume Download Toast Notice
+        function downloadResume() {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-6 right-6 z-50 px-5 py-3 rounded-xl bg-slate-900 border border-[#034694]/50 text-blue-300 text-sm font-bold shadow-2xl flex items-center gap-3 transition-all duration-300 transform translate-y-10 opacity-0';
+            toast.innerHTML = `<i data-lucide="check-circle" class="w-5 h-5 text-[#4da3ff]"></i> 포트폴리오 PDF 다운로드가 시작되었습니다.`;
+            document.body.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
