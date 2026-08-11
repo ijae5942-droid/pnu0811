@@ -86,7 +86,7 @@
     <header class="sticky top-0 z-40 w-full glass-panel border-b border-slate-200/80 dark:border-slate-800/80 transition-all">
         <div class="max-w-7xl mx-mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <!-- Brand Logo -->
-            <a href="#" class="flex items-center gap-2 group">
+            <a href="../index.html" class="flex items-center gap-2 group">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform">
                     <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
                 </div>
@@ -98,6 +98,10 @@
 
             <!-- Navigation Links -->
             <nav class="hidden md:flex items-center gap-8 font-medium text-sm text-slate-600 dark:text-slate-300">
+                <a href="../index.html" class="inline-flex items-center gap-1.5 text-sky-600 dark:text-sky-400 font-semibold hover:text-sky-700 transition-colors">
+                    <i data-lucide="home" class="w-4 h-4"></i>
+                    <span>홈</span>
+                </a>
                 <a href="#about" class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">소개</a>
                 <a href="#reports" class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">주요 보고서</a>
                 <a href="#methodology" class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">분석 프로세스</a>
@@ -107,6 +111,12 @@
 
             <!-- Actions -->
             <div class="flex items-center gap-3">
+                <!-- Home Quick Button -->
+                <a href="../index.html" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-1.5 text-xs font-semibold" title="홈으로 이동">
+                    <i data-lucide="home" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">홈</span>
+                </a>
+
                 <!-- Theme Toggle Button -->
                 <button id="themeToggle" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="테마 전환">
                     <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
@@ -128,6 +138,10 @@
 
         <!-- Mobile Navigation Menu -->
         <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pt-2 pb-4 space-y-2">
+            <a href="../index.html" class="flex items-center gap-2 py-2 text-sky-600 font-bold">
+                <i data-lucide="home" class="w-4 h-4"></i>
+                <span>홈</span>
+            </a>
             <a href="#about" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-sky-600">소개</a>
             <a href="#reports" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-sky-600">주요 보고서</a>
             <a href="#methodology" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-sky-600">분석 프로세스</a>
